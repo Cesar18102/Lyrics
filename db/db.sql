@@ -3,7 +3,9 @@ CREATE TABLE LYRICS_SET (
 	id INTEGER PRIMARY KEY AUTO_INCREMENT, 
 	name CHAR(100),
 	description TEXT,
-	write_date DATE
+	write_date DATE,
+	src char(100),
+	list_item_pict_src char(100)
 );
 
 CREATE TABLE LYRICS (
@@ -28,15 +30,14 @@ CREATE TABLE PICTURES (
 	author CHAR(200) NOT NULL,
 	description TEXT,
 	author_comment TEXT,
-	src char(100)
+	src char(100) NOT NULL
 );
 
 CREATE TABLE LYRICS_PICTURES (
 
 	lyrics_id INTEGER NOT NULL,
-	picture_id INTEGER NOT NULL,
-	FOREIGN KEY(lyrics_id) REFERENCES LYRICS(id) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY(picture_id) REFERENCES PICTURES(id) ON UPDATE CASCADE ON DELETE CASCADE
+	src char(100) NOT NULL,
+	FOREIGN KEY(lyrics_id) REFERENCES LYRICS(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE NEWS (
@@ -45,5 +46,5 @@ CREATE TABLE NEWS (
 	title TEXT NOT NULL,
 	description TEXT,
 	news_date DATE NOT NULL,
-	src char(100) NOT NULL
+	src char(100)
 );

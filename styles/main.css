@@ -83,7 +83,7 @@ html, body {
 	background-color : rgb(245, 245, 245);
 }
 
-.new {
+.new, .set, .lyrics {
 	
 	width : 64vw;
 	height : auto;
@@ -100,16 +100,16 @@ html, body {
 	margin-bottom : 2vh;
 }
 
-.new_header {
+.new_header, .set_header, .lyrics_header {
 	
 	width : 64vw;
 }
 
-.new_title {
+.new_title, .set_title, .lyrics_title {
 	
 	display : inline;
 	
-	with : 78.125%;
+	witdh : 78.125%;
 	height : auto;
 	
 	font-size : 1.5em;
@@ -119,7 +119,7 @@ html, body {
 	left : 0vw;
 }
 
-.new_date {
+.new_date, .set_date, .lyrics_date {
 	
 	display : inline;	
 	
@@ -139,7 +139,7 @@ html, body {
 	margin-bottom : 2vh;
 }
 
-.new_picture {
+.new_picture, .set_picture, .lyrics_picture {
 	
 	width : 66vw;
 	height : 40vh;
@@ -151,4 +151,75 @@ html, body {
 	background-size : cover;
 	
 	margin-left : -1vw;
+}
+
+.set_content {
+	
+	padding : 1vh;
+}
+
+.lyrics_item {
+	
+	
+}
+
+.set_title {
+	
+}
+
+.set_description, .lyrics_description {
+	
+	font-size : 1.3em;
+	text-indent : 2vw;
+	color : rgb(75, 75, 75);
+	
+	margin-top : 2vh;
+	margin-bottom : 1vh;
+}
+
+.lyrics_link {
+	
+	text-decoration : none;
+	
+	font-style : italic;
+	font-size : 1.4em;
+}
+
+.lyrics_link:hover {
+	
+	text-decoration : underline;
+}
+
+.list {
+	
+	
+}
+
+.list_item {
+
+	list-style-type : disc;
+}
+
+.lyrics_content {
+	
+	font-style : italic;
+	font-size : 1.5em;
+	display : inline-block;
+	text-align : left;
+}
+
+.lyrics_conmment {
+	
+	margin-top : 2vh;
+	margin-bottom : 2vh;
+	
+	font-size : 1.1em;
+	text-indent : 2vw;
+	
+	color : rgb(150, 150, 150);
+}
+
+.lyrics_picture {
+	
+	margin-top : 1vh;
 }
