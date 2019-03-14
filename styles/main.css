@@ -26,9 +26,9 @@ html, body {
 .head_button {
 	
 	font-family : Lucida Handwriting, fantasy;
-	font-size : 1.5em;
+	font-size : 1.5vw;
 
-	width : 10vw;
+	width : 16vw;
 	height : calc(6vh - (6vh - 1.25em) / 2);
 	
 	padding-top : calc((6vh - 1.25em) / 2);
@@ -44,28 +44,30 @@ html, body {
 
 .head_button:hover {
 	
-	font-size : 2em;
+	font-size : 1.8vw;
 	cursor : pointer;
-	
-	height : calc(6vh - (6vh - 1.2em) / 2);
-	padding-top : calc((6vh - 1.2em) / 2);
 	
 	transition : font-size 100ms;
 }
 
-#lyrics_button {
+#creative_button, #lyrics_button {
 	
-	left : 34vw;
+	left : 12vw;
 }
 
-#pictures_button {
+#author_button, #pictures_button {
 	
-	left : 45vw;
+	left : 32vw;
 }
 
-#news_button {
+#science_button, #videos_button {
 	
-	left : 56vw;
+	left : 52vw;
+}
+
+#news_button, #main_button {
+	
+	left : 72vw;
 }
 
 .content {
@@ -83,7 +85,7 @@ html, body {
 	background-color : rgb(245, 245, 245);
 }
 
-.new, .set, .lyrics {
+.new, .set, .lyrics, .picture {
 	
 	width : 64vw;
 	height : auto;
@@ -100,12 +102,29 @@ html, body {
 	margin-bottom : 2vh;
 }
 
-.new_header, .set_header, .lyrics_header {
+.video_container {
 	
-	width : 64vw;
+	padding-left : 1vw;
+	padding-bottom : 2vh;
+	
+	border-bottom : 2px solid rgb(200, 200, 200);
 }
 
-.new_title, .set_title, .lyrics_title {
+.new_header, .set_header, .picture_header {
+	
+	width : 64vw;
+	
+	bordertop-left-radius : 25px;
+	border-top-right-radius : 25px;
+}
+
+.video_header {
+	
+	padding-top : 1vh;
+	padding-bottom : 0vh;
+}
+
+.new_title, .set_title, .picture_title, .video_title {
 	
 	display : inline;
 	
@@ -119,7 +138,16 @@ html, body {
 	left : 0vw;
 }
 
-.new_date, .set_date, .lyrics_date {
+.lyrics_title {
+	
+	width : 64vw;
+	height : auto;
+	
+	font-size : 1.5em;
+	font-family : Lucida Handwriting, cursive;
+}
+
+.new_date, .set_date, .picture_date {
 	
 	display : inline;	
 	
@@ -134,28 +162,52 @@ html, body {
 	font-size : 1.2em;
 	text-indent : 2vw;
 	color : rgb(75, 75, 75);
+	text-align : justify;
 	
 	margin-top : 2vh;
 	margin-bottom : 2vh;
 }
 
-.new_picture, .set_picture, .lyrics_picture {
+.tab {
 	
-	width : 66vw;
-	height : 40vh;
+	text-indent : 2vw;
+}
+
+.new_picture, .set_picture, .lyrics_picture, .picture_picture {
 	
-	border-radius : 22px;
-	
-	background-position : repeat;
+	background-position : center;
 	background-repeat : no-repeat;
 	background-size : cover;
+
+	width : 66vw;
+    height : 75vh;
+	
+	border-radius : 22px;
 	
 	margin-left : -1vw;
 }
 
+.video_new_wrapper, .video_wrapper {
+	
+	width : 66vw;
+	height : 75vh;
+	
+	padding-top : 1vh;
+	margin-left : -1vw;
+}
+
+.video_new, .video {
+	
+	width : calc(66vw - 2vh);
+	height : 73vh;
+	
+	border : 1vh solid black;
+	border-radius : 22px;
+}
+
 .set_content {
 	
-	padding : 1vh;
+	padding-left : 1vh;
 }
 
 .lyrics_item {
@@ -167,7 +219,7 @@ html, body {
 	
 }
 
-.set_description, .lyrics_description {
+.set_description, .lyrics_description, .picture_description, .video_description {
 	
 	font-size : 1.3em;
 	text-indent : 2vw;
@@ -175,6 +227,7 @@ html, body {
 	
 	margin-top : 2vh;
 	margin-bottom : 1vh;
+	text-align : justify;
 }
 
 .lyrics_link {
@@ -208,13 +261,14 @@ html, body {
 	text-align : left;
 }
 
-.lyrics_conmment {
+.lyrics_conmment, .picture_comment {
 	
 	margin-top : 2vh;
 	margin-bottom : 2vh;
 	
 	font-size : 1.1em;
 	text-indent : 2vw;
+	text-align : justify;
 	
 	color : rgb(150, 150, 150);
 }
@@ -222,4 +276,31 @@ html, body {
 .lyrics_picture {
 	
 	margin-top : 1vh;
+}	
+
+.bio {
+	
+	font-size : 1.5em;
+	font-family : Lucida Handwriting, cursive;
+	
+	text-align : justify;
+}
+
+.face {
+	
+	background-position : center;
+	background-repeat : no-repeat;
+	background-size : cover;
+	background-image : url(../pic/face.jpg);
+	
+	float : right;
+	
+	width : 20vw;
+	height : 50vh;
+	
+	margin-top : 1vh;
+	margin-bottom : 1vh;
+	margin-left : 2vw;
+	
+	border-radius : 25px;
 }

@@ -18,25 +18,10 @@
 			
 			<tr>
 				<td style = "vertical-align : top;"><div class = "left_side"></div></td>
-				<td><div class = "content">
-					
-					<?php
-				
-						include "../scripts/php/DB_Request.php";
-						$db_link = Connect();
-					
-						$pictures = Request($db_link, "SELECT * FROM PICTURES");
-						
-						while($picture = mysqli_fetch_array($pictures, MYSQLI_ASSOC)) {
-								
-							echo 	"<div class = 'pictures'>
-										<ul class = 'list'>
-											<li class = 'list_item' style = 'list-style-image : url(../pic/list_item_image.png);'><div class = 'lyrics_item'><a class = 'lyrics_link' href = 'picture.php?id=".$picture["id"]."'>".$picture["name"]." — ".$picture["description"]."</a></div></li>";
-							echo 	   "</ul>
-									</div>";
-						}
-					?>
-
+				<td><div class = "content bio">
+					<div class = "tab">
+						У цьому розділі буде загальна інформація про творчість В. В. Кириченка
+					</div>
 				</div></td>
 				<td style = "vertical-align : top;"><div class = "right_side"></div></td>
 			</tr>

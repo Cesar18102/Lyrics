@@ -8,9 +8,10 @@
 			<tr> 
 				<td colspan = "3">
 					<div class = "header">
-						<div class = "head_button" id = "lyrics_button">Стихи</div>
-						<div class = "head_button" id = "pictures_button">Картины</div>
-						<div class = "head_button" id = "news_button">Новости</div>
+						<div class = "head_button" id = "lyrics_button">Вірші</div>
+						<div class = "head_button" id = "pictures_button">Картини</div>
+						<div class = "head_button" id = "videos_button">Фільми та пісні</div>
+						<div class = "head_button" id = "main_button">Головна</div>
 					</div>
 				</td>
 			</tr>
@@ -32,23 +33,21 @@
 							while($lyrics = mysqli_fetch_array($lyrics_set, MYSQLI_ASSOC)) {
 								
 								$pictures = Request($db_link, "SELECT * FROM LYRICS_PICTURES WHERE lyrics_id = ".$id);
+								$videos = Request($db_link, "SELECT * FROM LYRICS_VIDEOS WHERE lyrics_id = ".$id);
 								
 								echo 	"<div class = 'lyrics'>
-											<div class = 'lyrics_header'>
+											<center>
 												<div class = 'lyrics_title'>".
 													$lyrics["name"].
 												"</div>
-												<div class = 'lyrics_date'>".
-													$lyrics["write_date"].
-												"</div>
-											</div>
+											</center>
 											<div class = 'lyrics_description'>".
 													$lyrics["description"].
-												"</div>
-											<center>
-											<div class = 'lyrics_content'>".
-												$lyrics["content"].
 											"</div>
+											<center>
+												<div class = 'lyrics_content'>".
+													$lyrics["content"].
+												"</div>
 											</center>
 											<div class = 'lyrics_conmment'>".
 												$lyrics["author_comment"].
@@ -56,6 +55,11 @@
 									
 								while($picture = mysqli_fetch_array($pictures, MYSQLI_ASSOC))
 									   echo "<center><div class = 'lyrics_picture' style = 'background-image : url(../".$picture["src"].");'></div></center>";
+								   
+								while($video = mysqli_fetch_array($videos, MYSQLI_ASSOC))
+									   echo "<div class = 'video_new_wrapper'>
+												<iframe class = 'video_new' src='".$video["video_src"]."' frameborder='1' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
+											 </div>";
 											
 								echo 	"</div>";
 							}
@@ -70,6 +74,6 @@
 				<td colspan = "3"><div class = "footer"></div></td>
 			</tr>
 		</table>
-		<script src = "../scripts/js/page_switcher.js"></script>
+		<script src = "../scripts/js/page_switcher_creative.js"></script>
 	</body>
 </html>

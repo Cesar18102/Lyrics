@@ -18,21 +18,32 @@
 			
 			<tr>
 				<td style = "vertical-align : top;"><div class = "left_side"></div></td>
-				<td><div class = "content">
+				<td>
+				<div class = "content">
 					
 					<?php
 				
 						include "../scripts/php/DB_Request.php";
 						$db_link = Connect();
-					
-						$pictures = Request($db_link, "SELECT * FROM PICTURES");
+				
+						$videos = Request($db_link, "SELECT * FROM FILMS");
 						
-						while($picture = mysqli_fetch_array($pictures, MYSQLI_ASSOC)) {
+						while($video = mysqli_fetch_array($videos, MYSQLI_ASSOC)) {
 								
-							echo 	"<div class = 'pictures'>
-										<ul class = 'list'>
-											<li class = 'list_item' style = 'list-style-image : url(../pic/list_item_image.png);'><div class = 'lyrics_item'><a class = 'lyrics_link' href = 'picture.php?id=".$picture["id"]."'>".$picture["name"]." — ".$picture["description"]."</a></div></li>";
-							echo 	   "</ul>
+							echo 	"<div class = 'video_container'>
+										<div class = 'video_header'>
+											<center>
+												<div class = 'video_title'>".
+													$video["title"].
+												"</div>
+											</center>
+										</div>
+										<div class = 'video_description'>".
+											$video["description"].
+										"</div>
+										<div class = 'video_wrapper'>
+											<iframe class = 'video' src='".$video["video_src"]."' frameborder='1' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
+										</div>
 									</div>";
 						}
 					?>

@@ -8,9 +8,10 @@
 			<tr> 
 				<td colspan = "3">
 					<div class = "header">
-						<div class = "head_button" id = "lyrics_button">Стихи</div>
-						<div class = "head_button" id = "pictures_button">Картины</div>
-						<div class = "head_button" id = "news_button">Новости</div>
+						<div class = "head_button" id = "lyrics_button">Вірші</div>
+						<div class = "head_button" id = "pictures_button">Картини</div>
+						<div class = "head_button" id = "videos_button">Фільми та пісні</div>
+						<div class = "head_button" id = "main_button">Головна</div>
 					</div>
 				</td>
 			</tr>
@@ -62,6 +63,6 @@
 				<td colspan = "3"><div class = "footer"></div></td>
 			</tr>
 		</table>
-		<script src = "../scripts/js/page_switcher.js"></script>
+		<script src = "../scripts/js/page_switcher_creative.js"></script>
 	</body>
 </html>

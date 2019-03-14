@@ -8,9 +8,12 @@
 			<tr> 
 				<td colspan = "3">
 					<div class = "header">
-						<div class = "head_button" id = "lyrics_button">Стихи</div>
-						<div class = "head_button" id = "pictures_button">Картины</div>
-						<div class = "head_button" id = "news_button">Новости</div>
+						<div class = "head_button" id = "science_button">Наукова діяльність</div>
+						<div class = "head_button" id = "creative_button">Творчість</div>
+						<div class = "head_button" id = "news_button">Новини</div>
+						<div class = "head_button" id = "author_button">Про автора</div>
+						<!--<div class = "head_button" id = "lyrics_button">Вірші</div>
+						<div class = "head_button" id = "pictures_button">Малюнки</div>-->
 					</div>
 				</td>
 			</tr>
@@ -18,7 +21,7 @@
 			<tr>
 				<td style = "vertical-align : top;"><div class = "left_side"></div></td>
 				<td><div class = "content">
-				
+					
 					<?php
 						
 						include "scripts/php/DB_Request.php";
@@ -38,9 +41,18 @@
 										</div>
 										<div class = 'new_content'>".
 											$new["description"].
-										"</div>
-										<center><div class = 'new_picture' style = 'background-image : url(".$new["src"].");'></div></center>
-									</div>";
+										"</div>";
+										
+							if(isset($new["src"]) && $new["src"] != null)
+								echo "<center>
+										<div class = 'new_picture' style = 'background-image : url(".$new["src"].");'></div>
+									  </center>";
+							
+							if(isset($new["video_src"]) && $new["video_src"] != null)
+								echo "<div class = 'video_new_wrapper'>
+										<iframe class = 'video_new' src='".$new["video_src"]."' frameborder='1' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
+									 </div>";
+							echo "</div>";
 						}
 					?>
 
