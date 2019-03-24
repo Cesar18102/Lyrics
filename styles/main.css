@@ -173,6 +173,11 @@ html, body {
 	text-indent : 2vw;
 }
 
+.double_tab {
+	
+	text-indent : 4vw;
+}
+
 .new_picture, .set_picture, .lyrics_picture, .picture_picture {
 	
 	background-position : center;

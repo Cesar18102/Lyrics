@@ -44,10 +44,26 @@
 											$set["description"].
 										"</div>
 										<div class = 'set_content'>
-											<ul class = 'list'>";
-												while($lyrics = mysqli_fetch_array($lyrics_in_set, MYSQLI_ASSOC))
-													echo "<li class = 'list_item' style = 'list-style-image : url(../".$set["list_item_pict_src"].");'><div class = 'lyrics_item'><a class = 'lyrics_link' href = 'lyrics.php?id=".$lyrics["id"]."'>".$lyrics["name"]."</a></div></li>";
-							echo 			"</ul>
+											<center><table width = '100%'><tr>";
+										
+											$Total = mysqli_num_rows($lyrics_in_set);
+											$Height = ceil($Total / 3);
+													
+											for($i = 0; $i < 3; $i++) {
+												
+												echo "<td><ul class = 'list'>";
+														
+												for($j = 0; $j < $Height && $i * $Height + $j < $Total; $j++) {
+													
+													$lyrics = mysqli_fetch_array($lyrics_in_set, MYSQLI_ASSOC);
+													echo "<li class = 'list_item' style = 'margin-left : 3vw; list-style-image : url(../".$set["list_item_pict_src"].");'><div class = 'lyrics_item'><a class = 'lyrics_link' href = 'lyrics.php?id=".$lyrics["id"]."'>".$lyrics["name"]."</a></div></li>";
+												}
+												
+												echo 	"</ul>
+													  </td>";
+											}
+											
+							echo 			"</tr></table></center>
 										</div>
 										<center><div class = 'set_picture' style = 'background-image : url(../".$set["src"].");'></div></center>
 									</div>";
