@@ -12,8 +12,6 @@
 						<div class = "head_button" id = "creative_button">Творчість</div>
 						<div class = "head_button" id = "news_button">Новини</div>
 						<div class = "head_button" id = "author_button">Про автора</div>
-						<!--<div class = "head_button" id = "lyrics_button">Вірші</div>
-						<div class = "head_button" id = "pictures_button">Малюнки</div>-->
 					</div>
 				</td>
 			</tr>
@@ -36,14 +34,26 @@
 												$new["title"].
 											"</div>
 											<div class = 'new_date'>".
-												$new["news_date"].
-											"</div>
+												$new["news_date"];
+											
+											$auth = isset($_COOKIE["admin_auth"]) && $_COOKIE["admin_auth"] == "true";
+											
+											if($auth)
+												echo "<form id = 'new_add_form' action = 'pages/admin/query_delete.php' method = 'POST'>
+														<table>
+															<input name = 'table' value = 'NEWS' hidden></input>
+															<input name = 'redirect' value = '../../index.php' hidden></input>
+															<input name = 'id' value = '".$new['id']."' hidden></input>
+															<button class = 'admin_delete_button' type = 'submit'>X</button>
+														</table>
+													  </form>";
+								echo   "</div>
 										</div>
 										<div class = 'new_content'>".
 											$new["description"].
 										"</div>";
 										
-							if(isset($new["src"]) && $new["src"] != null)
+							if(isset($new["src"]) && $new["src"] != "NULL")
 								echo "<center>
 										<div class = 'new_picture' style = 'background-image : url(".$new["src"].");'></div>
 									  </center>";

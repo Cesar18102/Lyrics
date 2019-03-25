@@ -23,7 +23,7 @@ html, body {
 	background-color : rgb(255, 222, 31);
 }
 
-.head_button {
+.head_button{
 	
 	font-family : Lucida Handwriting, fantasy;
 	font-size : 1.5vw;
@@ -42,6 +42,34 @@ html, body {
 	background-color : rgb(255, 222, 31);
 }
 
+.password_label {
+	
+	font-family : Lucida Handwriting, fantasy;
+	font-size : 1.2vw;
+	
+	margin-left : -12vw;
+}
+
+.password_input {
+	
+	font-family : Lucida Handwriting, fantasy;
+	font-size : 1.2vw;
+	
+	width : 8vw;
+	height : 4vh;
+	
+	margin-top : 1.5vh;
+	margin-left : 1vw;
+	
+	display : inline;
+}
+
+#password_button {
+	
+	margin-left : 1vw;
+	display : inline;
+}
+
 .head_button:hover {
 	
 	font-size : 1.8vw;
@@ -50,25 +78,36 @@ html, body {
 	transition : font-size 100ms;
 }
 
-#creative_button, #lyrics_button {
+#new_add { left : 2vw; }
+#lyrics_add { left : 20vw; }
+#picture_add { left : 38vw; }
+#film_add { left : 56vw; }
+#pic_add { left : 74vw; width : 20vw; }
+#admin_out { left : 96vw; width : 3vw; background-color : red; }
+
+.admin_delete_button { 
+
+	font-family : Lucida Handwriting, fantasy;
+	font-size : 1vw;
+
+	width : 2vw;
+	height : 4vh;
 	
-	left : 12vw;
+	margin-bottom : 1vh;
+	
+	text-align : center;
+	
+	border-radius : 10px;
+	border : 0;
+	
+	background-color : red;
+	float : right;
 }
 
-#author_button, #pictures_button {
-	
-	left : 32vw;
-}
-
-#science_button, #videos_button {
-	
-	left : 52vw;
-}
-
-#news_button, #main_button {
-	
-	left : 72vw;
-}
+#creative_button, #main_button { left : 12vw; }
+#author_button, #lyrics_button { left : 32vw; }
+#science_button, #pictures_button { left : 52vw; }
+#news_button, #videos_button { left : 72vw; }
 
 .content {
 	
@@ -283,7 +322,7 @@ html, body {
 	margin-top : 1vh;
 }	
 
-.bio {
+.bio, .science, .creativity {
 	
 	font-size : 1.5em;
 	font-family : Lucida Handwriting, cursive;
@@ -291,11 +330,17 @@ html, body {
 	text-align : justify;
 }
 
-.face {
+.photo {
 	
 	background-position : center;
 	background-repeat : no-repeat;
 	background-size : cover;
+	
+	border-radius : 25px;
+}
+
+.face {
+	
 	background-image : url(../pic/face.jpg);
 	
 	float : right;
@@ -306,6 +351,55 @@ html, body {
 	margin-top : 1vh;
 	margin-bottom : 1vh;
 	margin-left : 2vw;
+}
+
+.inst_u {
 	
-	border-radius : 25px;
+	background-image : url(../pic/inst_u.png);
+	
+	float : right;
+	
+	width : 15vw;
+	height : 40vh;
+	
+	margin-top : 1vh;
+	margin-bottom : 1vh;
+	margin-left : 2vw;
+}
+
+.creative_photo {
+	
+	background-image : url(../pic/1.png);
+	
+	float : right;
+	
+	width : 66vw;
+	height : 40vh;
+	
+	margin-top : 1vh;
+	margin-bottom : 1vh;
+	margin-left : 2vw;
+}
+
+.admin_input, .admin_input_label, .admin_submit_button, .admin_textarea {
+	
+	font-size : 1.2em;
+	font-family : Lucida Handwriting, cursive;
+	
+	width : 25vw;
+	height : 4vh;
+}
+
+.admin_textarea {
+	
+	height : 30vh;
+	
+	min-width : 25vw;
+	min-height : 30vh;
+	max-width : 25vw;
+}
+
+#new_add_form {
+
+	margin-top : 1vh;
 }

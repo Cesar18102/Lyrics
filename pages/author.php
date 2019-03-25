@@ -20,7 +20,7 @@
 				<td style = "vertical-align : top;"><div class = "left_side"></div></td>
 				<td>
 					<div class = "content bio">
-						<div class = "face"></div>
+						<div class = "photo face"></div>
 						<div class = "tab">
 							Віктор Кириченко народився в 1946 році. Закінчив Харківський сільськогоспорадський інститут ім. В. В. Докучаєва. Навчався в аспірантурі УНДІГіС ім. В. Я. Юр'єва з 1973 р. по 1976 р.
 						</div>
