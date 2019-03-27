@@ -78,12 +78,36 @@ html, body {
 	transition : font-size 100ms;
 }
 
+#new_add, #lyrics_set_add, #lyrics_add, #picture_add, #film_add {
+	
+	width : 12.4vw;
+}
+
 #new_add { left : 2vw; }
-#lyrics_add { left : 20vw; }
-#picture_add { left : 38vw; }
-#film_add { left : 56vw; }
+#lyrics_set_add { left : 16.4vw; }
+#lyrics_add { left : 30.8vw; }
+#picture_add { left : 45.2vw; }
+#film_add { left : 59.6vw; }
 #pic_add { left : 74vw; width : 20vw; }
 #admin_out { left : 96vw; width : 3vw; background-color : red; }
+
+#content_input {
+	
+	min-height : 50vh;
+	
+}
+
+#descr_input {
+	
+	min-height : 20vh;
+	height : 20vh;
+}
+
+#comment_input {
+	
+	min-height : 20vh;
+	height : 20vh;
+}
 
 .admin_delete_button { 
 

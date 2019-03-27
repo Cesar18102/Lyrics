@@ -47,25 +47,28 @@
 											<center>
 												<div class = 'lyrics_content'>";
 												
-								$content = str_replace($lyrics["STROPHE_DELIM"], "", $lyrics["content"]);
-									
-								if($lyrics["BRS"] != 0 || $lyrics["STROPHE_LENGTH"] != 4 || $lyrics["TABBED"] == 1) {
-									
-									$Lines = explode($lyrics["LINE_WRAPPER_END"], $content);
-									$content = "";
-									
-									for($i = 0; $i < count($Lines); $i += $lyrics["STROPHE_LENGTH"]) {
-									
-										for($j = 0; $j < $lyrics["STROPHE_LENGTH"] && $i + $j < count($Lines); $j++)
-											if($lyrics["TABBED"] == 1 && (($i + $j) / $lyrics["STROPHE_LENGTH"]) % 2 == 1)
-												$content .= str_replace($lyrics["LINE_WRAPPER"], $lyrics["LINE_WRAPPER_TABBED"], $Lines[$i + $j]).$lyrics["LINE_WRAPPER_TABBED_END"];
-											else
-												$content .= $Lines[$i + $j].$lyrics["LINE_WRAPPER_END"];
-											
-										$content .= $lyrics["STROPHE_DELIM"];
+								if($lyrics["auto_format"] == 1) {
+
+									$content = str_replace($lyrics["STROPHE_DELIM"], "", $lyrics["content"]);
+										
+									if($lyrics["BRS"] != 0 || $lyrics["STROPHE_LENGTH"] != 4 || $lyrics["TABBED"] == 1) {
+										
+										$Lines = explode($lyrics["LINE_WRAPPER_END"], $content);
+										$content = "";
+										
+										for($i = 0; $i < count($Lines); $i += $lyrics["STROPHE_LENGTH"]) {
+										
+											for($j = 0; $j < $lyrics["STROPHE_LENGTH"] && $i + $j < count($Lines); $j++)
+												if($lyrics["TABBED"] == 1 && (($i + $j) / $lyrics["STROPHE_LENGTH"]) % 2 == 1)
+													$content .= str_replace($lyrics["LINE_WRAPPER"], $lyrics["LINE_WRAPPER_TABBED"], $Lines[$i + $j]).$lyrics["LINE_WRAPPER_TABBED_END"];
+												else
+													$content .= $Lines[$i + $j].$lyrics["LINE_WRAPPER_END"];
+												
+											$content .= $lyrics["STROPHE_DELIM"];
+										}
 									}
 								}
-												
+								
 								echo				$content.
 												"</div>
 											</center>

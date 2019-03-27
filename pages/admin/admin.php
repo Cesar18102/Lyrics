@@ -20,10 +20,11 @@
 							}
 							
 							if($right || (isset($_COOKIE["admin_auth"]) && $_COOKIE["admin_auth"] == "true"))
-								echo '<div class = "head_button" id = "new_add">Додати новину</div>
-									  <div class = "head_button" id = "lyrics_add">Додати вірш</div>
-									  <div class = "head_button" id = "picture_add">Додати картину</div>
-									  <div class = "head_button" id = "film_add">Додати відео</div>
+								echo '<div class = "head_button" id = "new_add">Новина</div>
+									  <div class = "head_button" id = "lyrics_set_add">Збірник</div>
+									  <div class = "head_button" id = "lyrics_add">Вірш</div>
+									  <div class = "head_button" id = "picture_add">Картина</div>
+									  <div class = "head_button" id = "film_add">Фільм/Кліп</div>
 									  <div class = "head_button" id = "pic_add">Завантажити картинку</div>
 									  <form action = "out.php" method = "POST" id = "out_form">
 										<input name = "redirect" value = "admin.php" hidden></input>

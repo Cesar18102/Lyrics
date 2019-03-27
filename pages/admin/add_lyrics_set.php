@@ -8,9 +8,11 @@
 			<tr> 
 				<td colspan = "3">
 					<div class = "header">
+						
 						<?php 
 							
 							$auth = isset($_COOKIE["admin_auth"]) && $_COOKIE["admin_auth"] == "true";
+							
 							if($auth)
 								echo '<div class = "head_button" id = "new_add">Новина</div>
 									  <div class = "head_button" id = "lyrics_set_add">Збірник</div>
@@ -43,11 +45,11 @@
 										<form id = 'new_add_form' action = 'query.php' method = 'POST'>
 											<table>
 												<tr>
-													<td><input name = 'table' value = 'NEWS' hidden></input></td>
+													<td><input name = 'table' value = 'LYRICS_SET' hidden></input></td>
 													<td></td>
 												</tr>
 												<tr>
-													<td><input name = 'redirect' value = 'add_new.php' hidden></input></td>
+													<td><input name = 'redirect' value = 'add_lyrics_set.php' hidden></input></td>
 													<td></td>
 												</tr>
 												<tr>
@@ -55,19 +57,19 @@
 													<td></td>
 												</tr>
 												<tr>
-													<td><label class = 'admin_input_label'>Заголовок новини: </label></td>
-													<td><input class = 'admin_input' name = 'title' id = 'title_input' required oninput = \"textFormatPreview('title_input', 'preview_title', 'Заголовок новини');\"></input></td>
+													<td><label class = 'admin_input_label'>Назва збірника та назва розділу: </label></td>
+													<td><input class = 'admin_input' name = 'name' id = 'title_input' maxlength = '100' placeholder = 'Назва збірника - назва розділу' required oninput = \"textFormatPreview('title_input', 'preview_title', 'Назва збірника - назва розділу');\"></input></td>
 												</tr>
 												<tr>
-													<td><label class = 'admin_input_label'>Текст новини: </label></td>
-													<td><textarea class = 'admin_textarea' name = 'description' id = 'text_input' oninput = \"textFormatPreview('text_input', 'preview_text', 'Текст новини');\"></textarea></td>
+													<td><label class = 'admin_input_label'>Опис розділу: </label></td>
+													<td><textarea class = 'admin_textarea' name = 'description' id = 'text_input' oninput = \"textFormatPreview('text_input', 'preview_text', 'Опис розділу');\"></textarea></td>
 												</tr>
 												<tr>
-													<td><label class = 'admin_input_label'>Дата новини: </label></td>
-													<td><input class = 'admin_input' name = 'news_date' type = 'date' id = 'date_input' value = '".date('Y-m-j')."' required oninput = \"document.getElementById('preview_date').innerHTML = document.getElementById('date_input').value;\"></input></td>
+													<td><label class = 'admin_input_label'>Дата дата видання збірника: </label></td>
+													<td><input class = 'admin_input' name = 'write_date' type = 'date' id = 'date_input' value = '".date('Y-m-j')."' required oninput = \"document.getElementById('preview_date').innerHTML = document.getElementById('date_input').value;\"></input></td>
 												</tr>
 												<tr>
-													<td><label class = 'admin_input_label'>Ілюстрація до новини: </label></td>
+													<td><label class = 'admin_input_label'>Ілюстрація до розділу: </label></td>
 													<td>
 														<select class = 'admin_input' name = 'src' id = 'pic_src' onchange = \"document.getElementById('preview_picture_wrapper').innerHTML = '<div class = \'new_picture\' style = \'background-image : url(../../' + document.getElementById('pic_src').value + ');\'></div>';\">
 															<option value = 'NULL'>NULL</option>";
@@ -99,12 +101,24 @@
 													</td>
 												</tr>
 												<tr>
-													<td><label class = 'admin_input_label'>Відео до новини: </label></td>
-													<td><input class = 'admin_input' name = 'video_src' id = 'video_src_input' maxlength = '200' type = 'url' placeholder = 'https://www.youtube.com/embed/cwyoYeRfpSM' oninput = \"let video_src_input = document.getElementById('video_src_input'); video_src_input.value = video_src_input.value.replace('watch', 'embed').replace('?v=', '/').replace(/&t=\d+s/, ''); document.getElementById('preview_video_new_wrapper').innerHTML = '<div class = \'video_new_wrapper\'><iframe class = \'video_new\' frameborder = \'1\' allow = \'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen src = \'' + video_src_input.value + '\'></iframe></div>';\"></input></td>
+													<td><label class = 'admin_input_label'>Піктограма для перечислення віршів розділу: </label></td>
+													<td>
+														<select class = 'admin_input' name = 'list_item_pict_src' id = 'list_item_src_input' onchange = \"let lis = document.getElementsByClassName('list_item'); let src = 'url(../../' + document.getElementById('list_item_src_input').value + ');'; for(let i of lis) i.style = 'margin-left : 3vw; list-style-image : ' + src;\">
+															<option value = 'NULL'>NULL</option>";
+													
+														foreach($pictures as $picture) {
+															
+															list($width, $height, $type, $attr) = getimagesize("../../".$picture);
+															if($width <= 32 && $height <= 32)
+																echo "<option>".$picture."</option>";
+														}
+													
+												echo "</select>
+													</td>
 												</tr>
 												<tr>
 													<td colspan = '2'>
-														<center><button class = 'admin_submit_button' type = 'submit'>Додати нивину</button></center>
+														<center><button class = 'admin_submit_button' type = 'submit'>Додати розділ</button></center>
 													</td>
 												</tr>
 											</table>
@@ -113,14 +127,39 @@
 							}
 						?>					
 						
-						<div class = 'new'>
-							<div class = 'new_header'>
-								<div class = 'new_title' id = 'preview_title'>Заголовок новини</div>
-								<div class = 'new_date' id = 'preview_date'><?php echo date('Y-m-j'); ?></div>
+						
+						<div class = 'set'>
+							<div class = 'set_header'>
+								<div class = 'set_title' id = 'preview_title'>Назва збірника - назва розділу</div>
+								<div class = 'set_date' id = 'preview_date'><?php echo date('Y-m-j'); ?></div>
 							</div>
-							<div class = 'new_content' id = 'preview_text'>Текст новини</div>
+							<div class = 'set_description' id = 'preview_text'>Опис розділу</div>
+							<div class = 'set_content'>
+								<center>
+									<table width = '100%'>
+										<tr>
+									
+								<?php
+									$Total = rand(5, 10);
+									$Height = ceil($Total / 3);
+													
+									for($i = 0; $i < 3; $i++) {
+												
+										echo "<td><ul class = 'list'>";
+														
+										for($j = 0; $j < $Height && $i * $Height + $j < $Total; $j++)
+											echo "<li class = 'list_item' style = 'margin-left : 3vw;'><div class = 'lyrics_item'><a class = 'lyrics_link'>Вірш №".($i * $Height + $j + 1)."</a></div></li>";
+												
+									echo 	"</ul>
+										</td>";
+									}
+								?>
+											
+										</tr>
+									</table>
+								</center>
+							</div>
 							<center id = 'preview_picture_wrapper'></center>
-							<div id = 'preview_video_new_wrapper'></div>
 						</div>
 					</div>
 				</td>

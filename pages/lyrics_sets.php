@@ -37,8 +37,21 @@
 												"Збірник \"".$set["name"]."\"".
 											"</div>
 											<div class = 'set_date'>".
-												$set["write_date"].
-											"</div>
+												$set["write_date"];
+												
+											$auth = isset($_COOKIE["admin_auth"]) && $_COOKIE["admin_auth"] == "true";
+											
+											if($auth)
+												echo "<form id = 'new_add_form' action = 'admin/query_delete.php' method = 'POST'>
+														<table>
+															<input name = 'table' value = 'LYRICS_SET' hidden></input>
+															<input name = 'redirect' value = '../lyrics_sets.php' hidden></input>
+															<input name = 'id' value = '".$set['id']."' hidden></input>
+															<button class = 'admin_delete_button' type = 'submit'>X</button>
+														</table>
+													  </form>";
+													  
+										echo "</div>
 										</div>
 										<div class = 'set_description'>".
 											$set["description"].
@@ -64,9 +77,11 @@
 											}
 											
 							echo 			"</tr></table></center>
-										</div>
-										<center><div class = 'set_picture' style = 'background-image : url(../".$set["src"].");'></div></center>
-									</div>";
+										</div>";
+										
+										if(isset($set["src"]) && $set["src"] != "NULL")
+											echo "<center><div class = 'set_picture' style = 'background-image : url(../".$set["src"].");'></div></center>";
+							echo "</div>";
 						}
 					
 					?>
