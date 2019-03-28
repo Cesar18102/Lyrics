@@ -65,7 +65,7 @@
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label'>Текст вірша: </label></td>
-													<td><textarea class = 'admin_textarea' name = 'content' id = 'content_input' required oninput = \"textFormatPreview('content_input', 'preview_content', 'Тест вірша'); lyricsFormat('content_input', 'preview_content', 'auto_format_id', 'tabbed', 'brs', 'strophe_height', 'str_delimeter', 'line_wrapper', 'line_wrapper_end', 'line_double_wrapper', 'line_double_wrapper_end');\"></textarea></td>
+													<td><textarea class = 'admin_textarea' name = 'content' id = 'content_input' required oninput = \"textFormatPreview('content_input', 'preview_content', 'Текст вірша'); lyricsFormat('content_input', 'preview_content', 'auto_format_id', 'tabbed', 'brs', 'strophe_height', 'str_delimeter', 'line_wrapper', 'line_wrapper_end', 'line_double_wrapper', 'line_double_wrapper_end');\"></textarea></td>
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label'>Дата написання вірша: </label></td>
@@ -85,11 +85,11 @@
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label auto_format' hidden>Ступінчастий вигляд строф: </label></td>
-													<td><input class = 'admin_input auto_format' name = 'TABBED' id = 'tabbed' type = 'checkbox' hidden onchange = \"textFormatPreview('content_input', 'preview_content', 'Тест вірша'); lyricsFormat('content_input', 'preview_content', 'auto_format_id', 'tabbed', 'brs', 'strophe_height', 'str_delimeter', 'line_wrapper', 'line_wrapper_end', 'line_double_wrapper', 'line_double_wrapper_end');\"></input></td>
+													<td><input class = 'admin_input auto_format' name = 'TABBED' id = 'tabbed' type = 'checkbox' hidden onchange = \"textFormatPreview('content_input', 'preview_content', 'Текст вірша'); lyricsFormat('content_input', 'preview_content', 'auto_format_id', 'tabbed', 'brs', 'strophe_height', 'str_delimeter', 'line_wrapper', 'line_wrapper_end', 'line_double_wrapper', 'line_double_wrapper_end');\"></input></td>
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label auto_format' hidden>Додатковыий перенос рядка в кінці строфи: </label></td>
-													<td><input class = 'admin_input auto_format' name = 'BRS' id = 'brs' type = 'checkbox' hidden onchange = \"textFormatPreview('content_input', 'preview_content', 'Тест вірша'); lyricsFormat('content_input', 'preview_content', 'auto_format_id', 'tabbed', 'brs', 'strophe_height', 'str_delimeter', 'line_wrapper', 'line_wrapper_end', 'line_double_wrapper', 'line_double_wrapper_end');\"></input></td>
+													<td><input class = 'admin_input auto_format' name = 'BRS' id = 'brs' type = 'checkbox' hidden onchange = \"textFormatPreview('content_input', 'preview_content', 'Текст вірша'); lyricsFormat('content_input', 'preview_content', 'auto_format_id', 'tabbed', 'brs', 'strophe_height', 'str_delimeter', 'line_wrapper', 'line_wrapper_end', 'line_double_wrapper', 'line_double_wrapper_end');\"></input></td>
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label auto_format' hidden>Кількість рядків у строфі: </label></td>
@@ -117,7 +117,14 @@
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label' >Автоматичне форматування: </label></td>
-													<td><input class = 'admin_input' name = 'auto_format' id = 'auto_format_id' type = 'checkbox' onchange = \"let auto_format_items = document.getElementsByClassName('auto_format'); for(let item of auto_format_items) item.hidden = !this.checked; textFormatPreview('content_input', 'preview_content', 'Тест вірша'); lyricsFormat('content_input', 'preview_content', 'auto_format_id', 'tabbed', 'brs', 'strophe_height', 'str_delimeter', 'line_wrapper', 'line_wrapper_end', 'line_double_wrapper', 'line_double_wrapper_end');\"></input></td>
+													<td><input class = 'admin_input' name = 'auto_format' id = 'auto_format_id' type = 'checkbox' onchange = \"let auto_format_items = document.getElementsByClassName('auto_format'); for(let item of auto_format_items) item.hidden = !this.checked; textFormatPreview('content_input', 'preview_content', 'Текст вірша'); lyricsFormat('content_input', 'preview_content', 'auto_format_id', 'tabbed', 'brs', 'strophe_height', 'str_delimeter', 'line_wrapper', 'line_wrapper_end', 'line_double_wrapper', 'line_double_wrapper_end');\"></input></td>
+												</tr>
+												<tr>
+													<td><label class = 'admin_input_label' >Кількість ілюстрацій: </label></td>
+													<td><input class = 'admin_input' id = 'pictures_count_id' type = 'number' min = '0' max = '10' oninput = \"showPictureLoaders(document.getElementById('pictures_count_id').value, 'picture_loaders');\"></input></td>
+												</tr>
+												<tr>
+													<td colspan = '2' id = 'picture_loaders' style = 'padding-top : 2vh;'></td>
 												</tr>
 												<tr>
 													<td colspan = '2'>
@@ -170,7 +177,7 @@
 				let brs = document.getElementById(brs_checker_id).checked;
 				
 				let line_wrapper = document.getElementById(line_wrapper_id).value;
-				let line_wrapper_end = document.getElementById(line_double_wrapper_end_id).value;
+				let line_wrapper_end = document.getElementById(line_wrapper_end_id).value;
 				
 				let line_double_wrapper = document.getElementById(line_double_wrapper_id).value;
 				let line_double_wrapper_end = document.getElementById(line_double_wrapper_end_id).value;
@@ -199,39 +206,118 @@
 			
 			function query() {
 				
-				$.post("query_select.php", "query=SELECT MAX(id) AS id FROM LYRICS", function(json) {
+				let xhr_get_id = new XMLHttpRequest();
+				xhr_get_id.open('POST', 'query_select.php', false);
+				
+				let data = { query : 'SELECT MAX(id) AS id FROM LYRICS' };
+				let body_get_id = fillXMLHttpRequest(data, xhr_get_id)
+				
+				xhr_get_id.onreadystatechange = function() {
 					
-					let resp = JSON.parse(json);
-					let id = resp['id'] + 1;
+					if(xhr_get_id.readyState === XMLHttpRequest.DONE && xhr_get_id.status === 200) {
+								
+						let id = JSON.parse(xhr_get_id.responseText)['id'] + 1;
+						
+						let set_id = document.getElementById('set_id').value;
+						let name = document.getElementById('title_input').value;
+						let content = lyricsFormat('content_input', 'preview_content', 'auto_format_id', 'tabbed', 'brs', 'strophe_height', 'str_delimeter', 
+												   'line_wrapper', 'line_wrapper_end', 'line_double_wrapper', 'line_double_wrapper_end');
+						let date = document.getElementById('date_input').value;
+						let descr = document.getElementById('descr_input').value;
+						let comment = document.getElementById('comment_input').value;
+						let tabbed = document.getElementById('tabbed').checked ? 1 : 0;
+						let brs = document.getElementById('brs').checked ? 1 : 0;
+						let strp_height = document.getElementById('strophe_height').value;
+						let strp_delim = document.getElementById('str_delimeter').value;
+						let line_wrapper = document.getElementById('line_wrapper').value;
+						let line_wrapper_end = document.getElementById('line_wrapper_end').value;
+						let line_double_wrapper = document.getElementById('line_double_wrapper').value;
+						let line_double_wrapper_end = document.getElementById('line_double_wrapper_end').value;
+						let auto_format = document.getElementById('auto_format_id').checked ? 1 : 0;
+						
+						let QUERY_Object = { table : "LYRICS", id : id, set_id : set_id, name : name,
+											 content : content, write_date : date, author : "В. В. Кириченко",
+											 description : descr, author_comment : comment, lyrics_type : "Лірика",
+											 TABBED : tabbed, BRS : brs, STROPHE_LENGTH : strp_height,
+											 STROPHE_DELIM : strp_delim, LINE_WRAPPER : line_wrapper,
+											 LINE_WRAPPER_END : line_wrapper_end, LINE_WRAPPER_TABBED : line_double_wrapper,
+											 LINE_WRAPPER_TABBED_END : line_double_wrapper_end, auto_format : auto_format 
+						};
+									
+						let xhr_add_lyrics = new XMLHttpRequest();
+						xhr_add_lyrics.open('POST', 'query.php', false);
+						
+						let body_add_lyrics = fillXMLHttpRequest(QUERY_Object, xhr_add_lyrics);
+						
+						xhr_add_lyrics.onreadystatechange = function() {
+							
+							let count = document.getElementById('pictures_count_id').value;
+							let root_dir = '../../pic';
+								
+							for(let i = 0; i < count; i++) {
 					
-					let set_id = document.getElementById('set_id').value;
-					let name = document.getElementById('title_input').value;
-					let content = lyricsFormat('content_input', 'preview_content', 'auto_format_id', 'tabbed', 'brs', 'strophe_height', 'str_delimeter', 
-											   'line_wrapper', 'line_wrapper_end', 'line_double_wrapper', 'line_double_wrapper_end');
-					let date = document.getElementById('date_input').value;
-					let descr = document.getElementById('descr_input').value;
-					let comment = document.getElementById('comment_input').value;
-					let tabbed = document.getElementById('tabbed').checked ? 1 : 0;
-					let brs = document.getElementById('brs').checked ? 1 : 0;
-					let strp_height = document.getElementById('strophe_height').value;
-					let strp_delim = document.getElementById('str_delimeter').value;
-					let line_wrapper = document.getElementById('line_wrapper').value;
-					let line_wrapper_end = document.getElementById('line_wrapper_end').value;
-					let line_double_wrapper = document.getElementById('line_double_wrapper').value;
-					let line_double_wrapper_end = document.getElementById('line_double_wrapper_end').value;
-					let auto_format = document.getElementById('auto_format_id').checked ? 1 : 0;
-					
-					
-					let QUERY = 'table=LYRICS&redirect=add_lyrics.php&id=' + id + '&set_id=' + set_id + '&name=' + name + 
-								'&content=' + content + '&write_date=' + date + "&author=В. В. Кириченко" + 
-								'&description=' + descr + '&author_comment=' + comment + '&lyrics_type=Лірика' + 
-								'&TABBED=' + tabbed + '&BRS=' + brs + '&STROPHE_LENGTH=' + strp_height + 
-								'&STROPHE_DELIM=' + strp_delim + '&LINE_WRAPPER=' + line_wrapper + 
-								'&LINE_WRAPPER_END=' + line_wrapper_end + '&LINE_WRAPPER_TABBED=' + line_double_wrapper + 
-								'&LINE_WRAPPER_TABBED_END=' + line_double_wrapper_end + '&auto_format=' + auto_format;
-												
-					$.post('query.php', QUERY);
-				});
+								let formdata = new FormData();
+								formdata.append('dir', root_dir);
+									
+								file = document.getElementById('file_' + i).files[0];
+								formdata.append('file', file, 'file_' + i + '.jpg');
+								
+								let xhr_upload_img = new XMLHttpRequest();
+								xhr_upload_img.open('POST', 'upload_file.php', false);
+								
+								xhr_upload_img.onreadystatechange = function() {
+									
+									alert(xhr_upload_img.responseText);
+								}
+								
+								xhr_upload_img.send(formdata);
+							}
+						}
+						
+						xhr_add_lyrics.send(body_add_lyrics);
+					};
+				}
+				
+				xhr_get_id.send(body_get_id);
+			}
+			
+			function fillXMLHttpRequest(dataObject, xhr) {
+				
+				let boundary = String(Math.random()).slice(2);
+				let boundaryMiddle = '--' + boundary + '\r\n';
+				let boundaryLast = '--' + boundary + '--\r\n'
+
+				let body = ['\r\n'];
+				for (let key in dataObject) { body.push('Content-Disposition: form-data; name="' + key + '"\r\n\r\n' + dataObject[key] + '\r\n'); }
+
+				body = body.join(boundaryMiddle) + boundaryLast;
+
+				xhr.setRequestHeader('Content-Type', 'multipart/form-data; boundary=' + boundary);
+				return body;
+			}
+			
+			function showPictureLoaders(count, wrapper_id) {
+				
+				let wrapper = document.getElementById(wrapper_id);
+				wrapper.innerHTML = "";
+				
+				for(let i = 0; i < count; i++)
+					wrapper.innerHTML += "<center><input class = 'admin_input' type = 'file' id = 'file_" + i + "'></input></center>";
+			}
+			
+			document.onload = function() {
+			
+				textFormatPreview('title_input', 'preview_title', 'Назва вірша');
+				textFormatPreview('descr_input', 'preview_descr', 'Опис вірша');
+				textFormatPreview('content_input', 'preview_content', 'Текст вірша'); 
+				lyricsFormat('content_input', 'preview_content', 'auto_format_id', 'tabbed', 'brs', 'strophe_height', 'str_delimeter', 
+							 'line_wrapper', 'line_wrapper_end', 'line_double_wrapper', 'line_double_wrapper_end');
+							 
+				let auto_format_items = document.getElementsByClassName('auto_format'); 
+				for(let item of auto_format_items) 
+					item.hidden = !this.checked;
+				
+				showPictureLoaders(document.getElementById('pictures_count_id').value, 'picture_loaders');
 			}
 		</script>
 	</body>

@@ -70,9 +70,9 @@
 								}
 								
 								echo				$content.
-												"</div>
+										/*div*/"
 											</center>
-											<div class = 'lyrics_conmment'>".
+											<div class = 'lyrics_comment'>".
 												$lyrics["author_comment"].
 											"</div>";
 									
