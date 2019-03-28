@@ -10,7 +10,12 @@
 		unset($_POST['redirect']);
 		unset($_POST['table']);
 		
-		$values = "('".implode("', '", array_values($_POST))."')";
+		$values = "('";
+		
+		foreach($_POST as $key => $value)
+			$values .= str_replace("'", "\'", $value)."', '";
+			
+		$values = substr($values, 0, strrpos($values, ',')).")";
 		
 		$QUERY .= " VALUES".$values;
 		

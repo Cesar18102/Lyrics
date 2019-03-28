@@ -2,6 +2,7 @@ function textFormatPreview(inputId, previewId, deflt) {
 				
 	let input = RemoveUniteQuotes(inputId);
 	document.getElementById(previewId).innerHTML = input.value == ""? deflt : input.value;
+	return input;
 }
 			
 function RemoveUniteQuotes(id) {
