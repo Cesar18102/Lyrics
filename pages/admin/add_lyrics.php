@@ -43,6 +43,38 @@
 						
 							if($auth) {
 								
+								echo "<select id = 'pic_src' hidden>
+										<option value = 'NULL'>NULL</option>";
+												
+											$pictures = array();
+											$files = scandir("../../");
+														
+											for( ; count($files) != 0; ) {
+															
+												if(preg_match("/(\.jpg)|(\.png)$/i", $files[0]))
+													array_push($pictures, $files[0]);
+														
+												if(preg_match("/^[^\.]+$/", $files[0])){
+													
+													$dirs = scandir("../../".$files[0]);
+																
+													foreach($dirs as $key => $dir)
+														$dirs[$key] = $files[0]."/".$dirs[$key];
+																
+													$files = array_merge($files, $dirs);
+												}
+															
+												array_shift($files);
+											}
+											
+											$res = "<option value = 'NULL'></option>";
+											foreach($pictures as $p)
+												$res .= "<option value = ".$p.">".$p."</option>";
+														
+											echo $res;
+													
+									echo   "</select>";
+								
 								echo "<center>
 										<form id = 'new_add_form' onsubmit = 'query()'>
 											<table>
@@ -121,7 +153,7 @@
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label' >Кількість ілюстрацій: </label></td>
-													<td><input class = 'admin_input' id = 'pictures_count_id' type = 'number' min = '0' max = '10' oninput = \"showPictureLoaders(document.getElementById('pictures_count_id').value, 'picture_loaders');\"></input></td>
+													<td><input class = 'admin_input' id = 'pictures_count_id' type = 'number' value = '1' min = '0' max = '10' oninput = \"showPictureLoaders(document.getElementById('pictures_count_id').value, 'picture_loaders');\"></input></td>
 												</tr>
 												<tr>
 													<td colspan = '2' id = 'picture_loaders' style = 'padding-top : 2vh;'></td>
@@ -145,7 +177,8 @@
 							<center>
 								<div class = 'lyrics_content' id = 'preview_content'>Текст вірша</div>
 							</center>
-							<div class = 'lyrics_comment' id = 'preview_comment'>Авторский коментар</div>							
+							<div class = 'lyrics_comment' id = 'preview_comment'>Авторский коментар</div>
+							<div id = 'pictures_wrapper'></div>
 						</div>
 						
 					</div>
@@ -252,25 +285,29 @@
 						xhr_add_lyrics.onreadystatechange = function() {
 							
 							let count = document.getElementById('pictures_count_id').value;
-							let root_dir = '../../pic';
+							//let root_dir = '../../pic';
 								
 							for(let i = 0; i < count; i++) {
 					
-								let formdata = new FormData();
+								/*let formdata = new FormData();
 								formdata.append('dir', root_dir);
 									
 								file = document.getElementById('file_' + i).files[0];
-								formdata.append('file', file, 'file_' + i + '.jpg');
+								formdata.append('file', file, 'file_' + i + '.jpg');*/
 								
-								let xhr_upload_img = new XMLHttpRequest();
-								xhr_upload_img.open('POST', 'upload_file.php', false);
+								let add_img_object = { table : "LYRICS_PICTURES", lyrics_id : id, src : document.getElementById('pic_src_' + i).value }
 								
-								xhr_upload_img.onreadystatechange = function() {
+								let xhr_add_img = new XMLHttpRequest();
+								xhr_add_img.open('POST', 'query.php', false);
+								
+								let body_add_img = fillXMLHttpRequest(add_img_object, xhr_add_img);
+								
+								xhr_add_img.onreadystatechange = function() {
 									
 									alert(xhr_upload_img.responseText);
 								}
 								
-								xhr_upload_img.send(formdata);
+								xhr_add_img.send(body_add_img);
 							}
 						}
 						
@@ -299,26 +336,58 @@
 			function showPictureLoaders(count, wrapper_id) {
 				
 				let wrapper = document.getElementById(wrapper_id);
+				
+				let cache = [];
+				
+				for(let i = 0; i < count; i++) {
+					
+					let input = document.getElementById('pic_src_' + i);
+					cache.push(input == null? "0" : input.selectedIndex);
+				}
+				
 				wrapper.innerHTML = "";
 				
+				let inner = document.getElementById('pic_src').innerHTML;
+				
 				for(let i = 0; i < count; i++)
-					wrapper.innerHTML += "<center><input class = 'admin_input' type = 'file' id = 'file_" + i + "'></input></center>";
+					wrapper.innerHTML += "<center style = 'margin-bottom : 1vh;'><label class = 'admin_input_label' >Ілюстрація №" + (i + 1) + ": </label>" + 
+										 "<select class = 'admin_input' name = 'src' id = 'pic_src_" + i + "' onchange = 'loadPreviewPictures();'>" + inner + "</select></center>";
+										 
+				for(let i = 0; i < count; i++)
+					document.getElementById('pic_src_' + i).selectedIndex = cache[i];
+				
+				loadPreviewPictures();
 			}
 			
-			document.onload = function() {
+			function loadPreviewPictures() {
+				
+				let count = document.getElementById('pictures_count_id').value;
+				let picturesWrapper = document.getElementById('pictures_wrapper');
+				
+				picturesWrapper.innerHTML = "";
+				
+				for(let i = 0; i < count; i++) {
+					
+					let input = document.getElementById('pic_src_' + i);
+					
+					if(input.value != "NULL")
+						picturesWrapper.innerHTML += "<center><div class = 'lyrics_picture' style = 'background-image : url(../../" + input.value + ");'></div></center>";
+				}
+			}
 			
-				textFormatPreview('title_input', 'preview_title', 'Назва вірша');
-				textFormatPreview('descr_input', 'preview_descr', 'Опис вірша');
-				textFormatPreview('content_input', 'preview_content', 'Текст вірша'); 
-				lyricsFormat('content_input', 'preview_content', 'auto_format_id', 'tabbed', 'brs', 'strophe_height', 'str_delimeter', 
+			
+			textFormatPreview('title_input', 'preview_title', 'Назва вірша');
+			textFormatPreview('descr_input', 'preview_descr', 'Опис вірша');
+			textFormatPreview('content_input', 'preview_content', 'Текст вірша'); 
+			lyricsFormat('content_input', 'preview_content', 'auto_format_id', 'tabbed', 'brs', 'strophe_height', 'str_delimeter', 
 							 'line_wrapper', 'line_wrapper_end', 'line_double_wrapper', 'line_double_wrapper_end');
 							 
-				let auto_format_items = document.getElementsByClassName('auto_format'); 
-				for(let item of auto_format_items) 
-					item.hidden = !this.checked;
+			let auto_format_items = document.getElementsByClassName('auto_format'); 
+			for(let item of auto_format_items) 
+				item.hidden = !this.checked;
 				
-				showPictureLoaders(document.getElementById('pictures_count_id').value, 'picture_loaders');
-			}
+			showPictureLoaders(document.getElementById('pictures_count_id').value, 'picture_loaders');
+			loadPreviewPictures();
 		</script>
 	</body>
 </html>
