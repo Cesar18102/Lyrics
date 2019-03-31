@@ -38,10 +38,8 @@
 											"</div>
 											<div class = 'set_date'>".
 												$set["write_date"];
-												
-											$auth = isset($_COOKIE["admin_auth"]) && $_COOKIE["admin_auth"] == "true";
 											
-											if($auth)
+											if(isset($_COOKIE["admin_auth"]) && $_COOKIE["admin_auth"] == "true")
 												echo "<form id = 'new_add_form' action = 'admin/query_delete.php' method = 'POST'>
 														<table>
 															<input name = 'table' value = 'LYRICS_SET' hidden></input>

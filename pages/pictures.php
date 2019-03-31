@@ -35,8 +35,19 @@
 												$pic["name"].
 											"</div>
 											<div class = 'picture_date'>".
-												$pic["write_date"].
-											"</div>
+												$pic["write_date"];
+												
+											if(isset($_COOKIE["admin_auth"]) && $_COOKIE["admin_auth"] == "true")
+												echo "<form id = 'new_add_form' action = 'admin/query_delete.php' method = 'POST'>
+														<table>
+															<input name = 'table' value = 'PICTURES' hidden></input>
+															<input name = 'redirect' value = '../pictures.php' hidden></input>
+															<input name = 'id' value = '".$pic['id']."' hidden></input>
+															<button class = 'admin_delete_button' type = 'submit'>X</button>
+														</table>
+													  </form>";
+													  
+							echo 			"</div>
 										</div>
 										<div class = 'picture_description'>".
 												$pic["description"].

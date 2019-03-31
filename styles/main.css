@@ -148,7 +148,7 @@ html, body {
 	background-color : rgb(245, 245, 245);
 }
 
-.new, .set, .lyrics, .picture {
+.new, .set, .lyrics, .picture, .video_container {
 	
 	width : 64vw;
 	height : auto;
@@ -170,7 +170,7 @@ html, body {
 	padding-left : 1vw;
 	padding-bottom : 2vh;
 	
-	border-bottom : 2px solid rgb(200, 200, 200);
+	margin-bottom : 0vh;
 }
 
 .new_header, .set_header, .picture_header {
@@ -262,6 +262,7 @@ html, body {
 	
 	padding-top : 1vh;
 	margin-left : -1vw;
+	margin-bottom : -2vh;
 }
 
 .video_new, .video {

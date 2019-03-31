@@ -39,8 +39,19 @@
 											<center>
 												<div class = 'lyrics_title'>".
 													$lyrics["name"].
-												"</div>
-											</center>
+												"</div>";
+											
+												if(isset($_COOKIE["admin_auth"]) && $_COOKIE["admin_auth"] == "true")
+													echo "<form id = 'new_add_form' action = 'admin/query_delete.php' method = 'POST'>
+															<table>
+																<input name = 'table' value = 'LYRICS' hidden></input>
+																<input name = 'redirect' value = '../lyrics_sets.php' hidden></input>
+																<input name = 'id' value = '".$lyrics['id']."' hidden></input>
+																<button class = 'admin_delete_button' type = 'submit'>X</button>
+															</table>
+														  </form>";
+														  
+								echo 	   "</center>
 											<div class = 'lyrics_description'>".
 												$lyrics["description"].
 											"</div>

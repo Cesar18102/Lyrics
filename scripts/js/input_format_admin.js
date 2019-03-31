@@ -11,3 +11,14 @@ function RemoveUniteQuotes(id) {
 	item.value = item.value.replace("'", '"');
 	return item;
 }
+
+function VideoFormat(inputId, previewId) {
+	
+	let input = document.getElementById(inputId);
+	let preview = document.getElementById(previewId);
+	
+	input.value = input.value.replace('watch', 'embed').replace('?v=', '/');
+	input.value = input.value.substring(0, input.value.indexOf('&'));
+	
+	preview.innerHTML = '<div class = \'video_wrapper\'><iframe class = \'video\' frameborder = \'1\' allow = \'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen src = \'' + input.value + '\'></iframe></div>';
+}

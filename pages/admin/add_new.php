@@ -100,7 +100,7 @@
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label'>Відео до новини: </label></td>
-													<td><input class = 'admin_input' name = 'video_src' id = 'video_src_input' maxlength = '200' type = 'url' placeholder = 'https://www.youtube.com/embed/cwyoYeRfpSM' oninput = \"let video_src_input = document.getElementById('video_src_input'); video_src_input.value = video_src_input.value.replace('watch', 'embed').replace('?v=', '/').replace(/&t=\d+s/, ''); document.getElementById('preview_video_new_wrapper').innerHTML = '<div class = \'video_new_wrapper\'><iframe class = \'video_new\' frameborder = \'1\' allow = \'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen src = \'' + video_src_input.value + '\'></iframe></div>';\"></input></td>
+													<td><input class = 'admin_input' name = 'video_src' id = 'video_src_input' maxlength = '200' type = 'url' placeholder = 'https://www.youtube.com/embed/cwyoYeRfpSM' oninput = \"VideoFormat('video_src_input', 'preview_video_new_wrapper')\"></input></td>
 												</tr>
 												<tr>
 													<td colspan = '2'>

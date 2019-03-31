@@ -153,10 +153,17 @@
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label' >Кількість ілюстрацій: </label></td>
-													<td><input class = 'admin_input' id = 'pictures_count_id' type = 'number' value = '1' min = '0' max = '10' oninput = \"showPictureLoaders(document.getElementById('pictures_count_id').value, 'picture_loaders');\"></input></td>
+													<td><input class = 'admin_input' id = 'pictures_count_id' type = 'number' value = '1' min = '0' max = '10' oninput = \"showPictureChoosers(document.getElementById('pictures_count_id').value, 'picture_choosers');\"></input></td>
 												</tr>
 												<tr>
-													<td colspan = '2' id = 'picture_loaders' style = 'padding-top : 2vh;'></td>
+													<td colspan = '2' id = 'picture_choosers' style = 'padding-top : 2vh;'></td>
+												</tr>
+												<tr>
+													<td><label class = 'admin_input_label' >Кількість відео: </label></td>
+													<td><input class = 'admin_input' id = 'video_count_id' type = 'number' value = '1' min = '0' max = '10' oninput = \"showVideoChoosers(document.getElementById('video_count_id').value, 'video_choosers');\"></input></td>
+												</tr>
+												<tr>
+													<td colspan = '2' id = 'video_choosers' style = 'padding-top : 2vh;'></td>
 												</tr>
 												<tr>
 													<td colspan = '2'>
@@ -179,6 +186,7 @@
 							</center>
 							<div class = 'lyrics_comment' id = 'preview_comment'>Авторский коментар</div>
 							<div id = 'pictures_wrapper'></div>
+							<div id = 'video_wrapper'></div>
 						</div>
 						
 					</div>
@@ -285,29 +293,29 @@
 						xhr_add_lyrics.onreadystatechange = function() {
 							
 							let count = document.getElementById('pictures_count_id').value;
-							//let root_dir = '../../pic';
 								
 							for(let i = 0; i < count; i++) {
-					
-								/*let formdata = new FormData();
-								formdata.append('dir', root_dir);
-									
-								file = document.getElementById('file_' + i).files[0];
-								formdata.append('file', file, 'file_' + i + '.jpg');*/
 								
-								let add_img_object = { table : "LYRICS_PICTURES", lyrics_id : id, src : document.getElementById('pic_src_' + i).value }
+								let add_img_object = { table : "LYRICS_PICTURES", lyrics_id : id, src : document.getElementById('pic_src_' + i).value };
 								
 								let xhr_add_img = new XMLHttpRequest();
 								xhr_add_img.open('POST', 'query.php', false);
 								
 								let body_add_img = fillXMLHttpRequest(add_img_object, xhr_add_img);
-								
-								xhr_add_img.onreadystatechange = function() {
-									
-									alert(xhr_upload_img.responseText);
-								}
-								
 								xhr_add_img.send(body_add_img);
+							}
+							
+							let count_videos = document.getElementById('video_count_id').value;
+							
+							for(let i = 0; i < count_videos; i++) {
+								
+								let add_video_object = { table : "LYRICS_VIDEOS", lyrics_id : id, video_src : document.getElementById('video_src_input_' + i).value };
+								
+								let xhr_add_video = new XMLHttpRequest();
+								xhr_add_video.open('POST', 'query.php', false);
+								
+								let body_add_video = fillXMLHttpRequest(add_video_object, xhr_add_video);
+								xhr_add_video.send(body_add_video);
 							}
 						}
 						
@@ -333,7 +341,7 @@
 				return body;
 			}
 			
-			function showPictureLoaders(count, wrapper_id) {
+			function showPictureChoosers(count, wrapper_id) {
 				
 				let wrapper = document.getElementById(wrapper_id);
 				
@@ -359,6 +367,30 @@
 				loadPreviewPictures();
 			}
 			
+			function showVideoChoosers(count, wrapper_id) {
+				
+				let wrapper = document.getElementById(wrapper_id);
+				
+				let cache = [];
+				
+				for(let i = 0; i < count; i++) {
+					
+					let input = document.getElementById('video_src_input_' + i);
+					cache.push(input == null? "" : input.value);
+				}
+				
+				wrapper.innerHTML = "";
+				
+				for(let i = 0; i < count; i++)
+					wrapper.innerHTML += "<center style = 'margin-bottom : 1vh;'><label class = 'admin_input_label' >Відео №" + (i + 1) + ": </label>" + 
+										 "<input class = 'admin_input' name = 'video_src' id = 'video_src_input_" + i + "' maxlength = '200' type = 'url' placeholder = 'https://www.youtube.com/embed/cwyoYeRfpSM' oninput = 'loadPreviewVideos();'></input>";
+										 
+				for(let i = 0; i < count; i++)
+					document.getElementById('video_src_input_' + i).value = cache[i];
+				
+				loadPreviewVideos();
+			}
+			
 			function loadPreviewPictures() {
 				
 				let count = document.getElementById('pictures_count_id').value;
@@ -375,6 +407,26 @@
 				}
 			}
 			
+			function loadPreviewVideos() {
+				
+				let count = document.getElementById('video_count_id').value;
+				let videoWrapper = document.getElementById('video_wrapper');
+				
+				videoWrapper.innerHTML = "";
+				
+				for(let i = 0; i < count; i++) {
+					
+					let input = document.getElementById('video_src_input_' + i);
+					
+					if(input.value != "") {
+						
+						input.value = input.value.replace('watch', 'embed').replace('?v=', '/');
+						input.value = input.value.substring(0, input.value.indexOf('&'));
+						
+						videoWrapper.innerHTML += "<div class = 'video_new_wrapper'><iframe class = 'video_new' frameborder = '1' allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen src = '" + input.value + "'></iframe></div>";
+					}
+				}
+			}
 			
 			textFormatPreview('title_input', 'preview_title', 'Назва вірша');
 			textFormatPreview('descr_input', 'preview_descr', 'Опис вірша');
@@ -386,8 +438,11 @@
 			for(let item of auto_format_items) 
 				item.hidden = !this.checked;
 				
-			showPictureLoaders(document.getElementById('pictures_count_id').value, 'picture_loaders');
+			showPictureChoosers(document.getElementById('pictures_count_id').value, 'picture_choosers');
 			loadPreviewPictures();
+			
+			showVideoChoosers(document.getElementById('video_count_id').value, 'video_choosers');
+			loadPreviewVideos();
 		</script>
 	</body>
 </html>

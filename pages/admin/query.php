@@ -23,7 +23,5 @@
 		
 		if(isset($_POST['redirect']))
 			Header("Location: ".$_POST['redirect']);
-		
-		echo 'OK';
 	}
 ?>
