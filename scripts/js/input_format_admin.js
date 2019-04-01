@@ -18,7 +18,10 @@ function VideoFormat(inputId, previewId) {
 	let preview = document.getElementById(previewId);
 	
 	input.value = input.value.replace('watch', 'embed').replace('?v=', '/');
-	input.value = input.value.substring(0, input.value.indexOf('&'));
+	let amp_ind = input.value.indexOf('&');
+	
+	if(amp_ind != -1)
+		input.value = input.value.substring(0, amp_ind);
 	
 	preview.innerHTML = '<div class = \'video_wrapper\'><iframe class = \'video\' frameborder = \'1\' allow = \'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen src = \'' + input.value + '\'></iframe></div>';
 }

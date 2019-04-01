@@ -292,30 +292,33 @@
 						
 						xhr_add_lyrics.onreadystatechange = function() {
 							
-							let count = document.getElementById('pictures_count_id').value;
-								
-							for(let i = 0; i < count; i++) {
-								
-								let add_img_object = { table : "LYRICS_PICTURES", lyrics_id : id, src : document.getElementById('pic_src_' + i).value };
-								
-								let xhr_add_img = new XMLHttpRequest();
-								xhr_add_img.open('POST', 'query.php', false);
-								
-								let body_add_img = fillXMLHttpRequest(add_img_object, xhr_add_img);
-								xhr_add_img.send(body_add_img);
-							}
+							if(xhr_get_id.readyState === XMLHttpRequest.DONE && xhr_get_id.status === 200) {
 							
-							let count_videos = document.getElementById('video_count_id').value;
-							
-							for(let i = 0; i < count_videos; i++) {
+								let count = document.getElementById('pictures_count_id').value;
+									
+								for(let i = 0; i < count; i++) {
+									
+									let add_img_object = { table : "LYRICS_PICTURES", lyrics_id : id, src : document.getElementById('pic_src_' + i).value };
+									
+									let xhr_add_img = new XMLHttpRequest();
+									xhr_add_img.open('POST', 'query.php', false);
+									
+									let body_add_img = fillXMLHttpRequest(add_img_object, xhr_add_img);
+									xhr_add_img.send(body_add_img);
+								}
 								
-								let add_video_object = { table : "LYRICS_VIDEOS", lyrics_id : id, video_src : document.getElementById('video_src_input_' + i).value };
+								let count_videos = document.getElementById('video_count_id').value;
 								
-								let xhr_add_video = new XMLHttpRequest();
-								xhr_add_video.open('POST', 'query.php', false);
-								
-								let body_add_video = fillXMLHttpRequest(add_video_object, xhr_add_video);
-								xhr_add_video.send(body_add_video);
+								for(let i = 0; i < count_videos; i++) {
+									
+									let add_video_object = { table : "LYRICS_VIDEOS", lyrics_id : id, video_src : document.getElementById('video_src_input_' + i).value };
+									
+									let xhr_add_video = new XMLHttpRequest();
+									xhr_add_video.open('POST', 'query.php', false);
+									
+									let body_add_video = fillXMLHttpRequest(add_video_object, xhr_add_video);
+									xhr_add_video.send(body_add_video);
+								}
 							}
 						}
 						

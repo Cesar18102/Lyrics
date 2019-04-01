@@ -5,6 +5,8 @@
 		
 		$QUERY = "INSERT INTO ".$_POST['table'];
 		
+		$redirect = isset($_POST['redirect'])? $_POST['redirect'] : "";
+		
 		unset($_POST['redirect']);
 		unset($_POST['table']);
 		
@@ -21,7 +23,7 @@
 		$db_link = Connect();
 		Request($db_link, $QUERY);
 		
-		if(isset($_POST['redirect']))
-			Header("Location: ".$_POST['redirect']);
+		if($redirect != "")
+			Header("Location: ".$redirect);
 	}
 ?>

@@ -58,7 +58,7 @@
 										<div class = 'new_picture' style = 'background-image : url(".$new["src"].");'></div>
 									  </center>";
 							
-							if(isset($new["video_src"]) && $new["video_src"] != "NULL")
+							if(isset($new["video_src"]) && $new["video_src"] != "NULL" && $new["video_src"] != "")
 								echo "<div class = 'video_new_wrapper'>
 										<iframe class = 'video_new' src='".$new["video_src"]."' frameborder='1' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
 									 </div>";

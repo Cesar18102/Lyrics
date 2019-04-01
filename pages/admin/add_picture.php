@@ -37,33 +37,35 @@
 					
 						<center>
 						
-							<table>
-								<tr>
-									<td><label class = 'admin_input_label'>Назва картини: </label></td>
-									<td><input class = 'admin_input' name = 'name' id = 'name_input' required oninput = "textFormatPreview('name_input', 'preview_name', 'Назва картини');"></input></td>
-								</tr>
-								<tr>
-									<td><label class = 'admin_input_label'>Опис картини: </label></td>
-									<td><textarea class = 'admin_textarea' name = 'description' id = 'text_input' oninput = "textFormatPreview('text_input', 'preview_text', 'Опис картини');"></textarea></td>
-								</tr>
-								<tr>
-									<td><label class = 'admin_input_label'>Дата написання картини: </label></td>
-									<td><input class = 'admin_input' name = 'write_date' type = 'date' id = 'date_input' value = '<?php echo date('Y-m-j'); ?>' required oninput = "document.getElementById('preview_date').innerHTML = document.getElementById('date_input').value;"></input></td>
-								</tr>
-								<tr>
-									<td><label class = 'admin_input_label'>Авторський коментар: </label></td>
-									<td><input class = 'admin_input' name = 'author_comment' id = 'author_comment_input' oninput = "textFormatPreview('author_comment_input', 'preview_comment', 'Авторський коментар');"></input></td>
-								</tr>
-								<tr>
-									<td><label class = 'admin_input_label'>Картина: </label></td>
- 									<td><input class = 'admin_input' type = 'file' id = 'file_input' onchange = 'showPreviewPicture();' required></input></td>
-								</tr>
-								<tr>
-									<td colspan = '2'>
-										<center><button class = 'admin_submit_button' type = 'submit' onclick = 'addPicture();'>Додати картину</button></center>
-									</td>
-								</tr>
-							</table>
+							<form onsubmit = 'addPicture();'>
+								<table>
+									<tr>
+										<td><label class = 'admin_input_label'>Назва картини: </label></td>
+										<td><input class = 'admin_input' name = 'name' id = 'name_input' required oninput = "textFormatPreview('name_input', 'preview_name', 'Назва картини');"></input></td>
+									</tr>
+									<tr>
+										<td><label class = 'admin_input_label'>Опис картини: </label></td>
+										<td><textarea class = 'admin_textarea' name = 'description' id = 'text_input' oninput = "textFormatPreview('text_input', 'preview_text', 'Опис картини');"></textarea></td>
+									</tr>
+									<tr>
+										<td><label class = 'admin_input_label'>Дата написання картини: </label></td>
+										<td><input class = 'admin_input' name = 'write_date' type = 'date' id = 'date_input' value = '<?php echo date('Y-m-j'); ?>' required oninput = "document.getElementById('preview_date').innerHTML = document.getElementById('date_input').value;"></input></td>
+									</tr>
+									<tr>
+										<td><label class = 'admin_input_label'>Авторський коментар: </label></td>
+										<td><input class = 'admin_input' name = 'author_comment' id = 'author_comment_input' oninput = "textFormatPreview('author_comment_input', 'preview_comment', 'Авторський коментар');"></input></td>
+									</tr>
+									<tr>
+										<td><label class = 'admin_input_label'>Картина: </label></td>
+										<td><input class = 'admin_input' type = 'file' id = 'file_input' onchange = 'showPreviewPicture();' required></input></td>
+									</tr>
+									<tr>
+										<td colspan = '2'>
+											<center><button class = 'admin_submit_button' type = 'submit'>Додати картину</button></center>
+										</td>
+									</tr>
+								</table>
+							</form>
 							
 						</center>
 						

@@ -52,7 +52,7 @@
 										<div class = 'picture_description'>".
 												$pic["description"].
 										"</div>
-										<center><div class = 'picture_picture' style = 'background-image : url(../".$pic["src"].");'></div></center>
+										<center><div class = 'picture_picture'  style = '".($pic['author_comment'] == "" ? "margin-bottom : -2vh;" : "")."background-image : url(../".$pic["src"].");'></div></center>
 										<div class = 'picture_comment'>".
 											$pic["author_comment"].
 										"</div>

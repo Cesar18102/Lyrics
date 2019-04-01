@@ -36,26 +36,27 @@
 					<div class = "content">
 					
 						<center>
-						
-							<table>
-								<tr>
-									<td><label class = 'admin_input_label'>Назва відео: </label></td>
-									<td><input class = 'admin_input' name = 'name' id = 'name_input' required oninput = "textFormatPreview('name_input', 'preview_name', 'Назва відео');"></input></td>
-								</tr>
-								<tr>
-									<td><label class = 'admin_input_label'>Опис відео: </label></td>
-									<td><textarea class = 'admin_textarea' name = 'description' id = 'text_input' oninput = "textFormatPreview('text_input', 'preview_text', 'Опис відео');"></textarea></td>
-								</tr>
-								<tr>
-									<td><label class = 'admin_input_label'>Відео: </label></td>
-									<td><input class = 'admin_input' name = 'video_src' id = 'video_src_input' maxlength = '200' type = 'url' placeholder = 'https://www.youtube.com/embed/cwyoYeRfpSM' oninput = "VideoFormat('video_src_input', 'preview_video_wrapper');"></input></td>
-								</tr>
-								<tr>
-									<td colspan = '2'>
-										<center><button class = 'admin_submit_button' type = 'submit' onclick = 'addFilm();'>Додати фільм</button></center>
-									</td>
-								</tr>
-							</table>
+							<form onsubmit = 'addFilm();'>
+								<table>
+									<tr>
+										<td><label class = 'admin_input_label'>Назва відео: </label></td>
+										<td><input class = 'admin_input' name = 'name' id = 'name_input' required oninput = "textFormatPreview('name_input', 'preview_name', 'Назва відео');"></input></td>
+									</tr>
+									<tr>
+										<td><label class = 'admin_input_label'>Опис відео: </label></td>
+										<td><textarea class = 'admin_textarea' name = 'description' id = 'text_input' oninput = "textFormatPreview('text_input', 'preview_text', 'Опис відео');"></textarea></td>
+									</tr>
+									<tr>
+										<td><label class = 'admin_input_label'>Відео: </label></td>
+										<td><input class = 'admin_input' name = 'video_src' id = 'video_src_input' maxlength = '200' required type = 'url' placeholder = 'https://www.youtube.com/embed/cwyoYeRfpSM' oninput = "VideoFormat('video_src_input', 'preview_video_wrapper');"></input></td>
+									</tr>
+									<tr>
+										<td colspan = '2'>
+											<center><button class = 'admin_submit_button' type = 'submit'>Додати фільм</button></center>
+										</td>
+									</tr>
+								</table>
+							</form>
 							
 						</center>
 						

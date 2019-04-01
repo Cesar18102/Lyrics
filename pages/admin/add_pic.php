@@ -34,7 +34,25 @@
 				<td style = "vertical-align : top;"><div class = "left_side"></div></td>
 				<td>
 					<div class = "content">
-					
+						
+						<center style = 'margin-top : 30vh;'>
+							<table>
+								<tr>
+									<td><label class = 'admin_input_label'>Файл: </label></td>
+									<td><input class = 'admin_input' type = 'file' id = 'file_input' required></input></td>
+								</tr>
+								<tr>
+									<td><label class = 'admin_input_label'>Нова назва файлу: </label></td>
+									<td><input class = 'admin_input' id = 'file_name_input' oninput = "RemoveUniteQuotes('file_name_input');"></input></td>
+								</tr>
+								<tr>
+									<td colspan = '2'>
+										<center><button class = 'admin_submit_button' type = 'submit' onclick = 'upload();'>Завантажити</button></center>
+									</td>
+								</tr>
+							</table>
+						</center>
+								
 					</div>
 				</td>
 				<td style = "vertical-align : top;"><div class = "right_side"></div></td>
@@ -45,5 +63,39 @@
 			</tr>
 		</table>
 		<script src = "../../scripts/js/page_switcher_admin.js"></script>
+		<script src = "../../scripts/js/input_format_admin.js"></script>
+		<script>
+		
+			function upload() {
+				
+				let file = document.getElementById('file_input').files[0];
+				let name = document.getElementById('file_name_input').value.replace(/\.\w+/, '');
+				let dir = "../../pic";
+				
+				let formData = new FormData();
+				formData.append('dir', dir);
+				formData.append('file', file, name + '.jpg');
+				
+				let xhr_add_pic = new XMLHttpRequest();
+				xhr_add_pic.open('POST', 'upload_file.php', false);
+				xhr_add_pic.send(formData);
+			}
+			
+			function fillXMLHttpRequest(dataObject, xhr) {
+				
+				let boundary = String(Math.random()).slice(2);
+				let boundaryMiddle = '--' + boundary + '\r\n';
+				let boundaryLast = '--' + boundary + '--\r\n'
+
+				let body = ['\r\n'];
+				for (let key in dataObject) { body.push('Content-Disposition: form-data; name="' + key + '"\r\n\r\n' + dataObject[key] + '\r\n'); }
+
+				body = body.join(boundaryMiddle) + boundaryLast;
+
+				xhr.setRequestHeader('Content-Type', 'multipart/form-data; boundary=' + boundary);
+				return body;
+			}
+			
+		</script>
 	</body>
 </html>

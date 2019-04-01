@@ -58,6 +58,8 @@
 											<center>
 												<div class = 'lyrics_content'>";
 												
+								$content = $lyrics["content"];
+												
 								if($lyrics["auto_format"] == 1) {
 
 									$content = str_replace($lyrics["STROPHE_DELIM"], "", $lyrics["content"]);
@@ -88,9 +90,11 @@
 											"</div>";
 									
 								while($picture = mysqli_fetch_array($pictures, MYSQLI_ASSOC))
-									   echo "<center><div class = 'lyrics_picture' style = 'background-image : url(../".$picture["src"].");'></div></center>";
+									if(file_exists("../".$picture["src"]))
+										echo "<center><div class = 'lyrics_picture' style = 'background-image : url(../".$picture["src"].");'></div></center>";
 								   
 								while($video = mysqli_fetch_array($videos, MYSQLI_ASSOC))
+									if($video["video_src"] != "" && $video["video_src"] != "NULL")
 									   echo "<div class = 'video_new_wrapper'>
 												<iframe class = 'video_new' src='".$video["video_src"]."' frameborder='1' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
 											 </div>";
