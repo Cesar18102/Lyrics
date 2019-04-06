@@ -26,7 +26,7 @@
 						include "../scripts/php/DB_Request.php";
 						$db_link = Connect();
 				
-						$videos = Request($db_link, "SELECT * FROM FILMS");
+						$videos = Request($db_link, "SELECT * FROM FILMS ORDER BY id DESC");
 						
 						while($video = mysqli_fetch_array($videos, MYSQLI_ASSOC)) {
 								

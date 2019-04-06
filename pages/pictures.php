@@ -25,7 +25,7 @@
 						include "../scripts/php/DB_Request.php";
 						$db_link = Connect();
 						
-						$picture = Request($db_link, "SELECT * FROM PICTURES");
+						$picture = Request($db_link, "SELECT * FROM PICTURES ORDER BY write_date DESC");
 							
 						while($pic = mysqli_fetch_array($picture, MYSQLI_ASSOC)) {
 									
