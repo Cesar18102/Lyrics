@@ -2,6 +2,10 @@
 	<head>
 		<title></title>
 		<link rel = "stylesheet" href = "../../styles/main.css"/>
+		<link rel="stylesheet" type="text/css" href="../../scripts/js/libs/iconselect/css/lib/control/iconselect.css" >
+        <script type="text/javascript" src="../../scripts/js/libs/iconselect/lib/control/iconselect.js"></script>
+        <script type="text/javascript" src="../../scripts/js/libs/iconselect/lib/iscroll.js"></script>
+		<script src = "../../scripts/js/scroll_blocker.js"></script>
 	</head>
 	<body>
 		<table border = "0px" cellspacing = "0px" cellpadding = "0px"> 
@@ -69,33 +73,44 @@
 												<tr>
 													<td><label class = 'admin_input_label'>Ілюстрація до новини: </label></td>
 													<td>
-														<select class = 'admin_input' name = 'src' id = 'pic_src' onchange = \"document.getElementById('preview_picture_wrapper').innerHTML = '<div class = \'new_picture\' style = \'background-image : url(../../' + document.getElementById('pic_src').value + ');\'></div>';\">
-															<option value = 'NULL'>NULL</option>";
-													
-														$pictures = array();
-														$files = scandir("../../");
+														<input class = 'admin_input' hidden name = 'src' id = 'pic_src'></input>
+														<div id = 'my-icon-select'></div>
+														<script>
 														
-														for( ; count($files) != 0; ) {
-															
-															if(preg_match("/(\.jpg)|(\.png)$/i", $files[0]))
-																array_push($pictures, $files[0]);
-															
-															if(preg_match("/^[^\.]+$/", $files[0])){
-																
-																$dirs = scandir("../../".$files[0]);
-																
-																foreach($dirs as $key => $dir)
-																	$dirs[$key] = $files[0]."/".$dirs[$key];
-																
-																$files = array_merge($files, $dirs);
-															}
-															
-															array_shift($files);
-														}
-														
-														echo "<option>".implode("</option>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option>", $pictures)."</option>";
+															let icons = [{'iconFilePath':'', 'iconValue':'1'}];";
 													
-												echo   "</select>
+															include "get_imgs.php";
+															$pictures = GetImgs();
+															
+															foreach($pictures as $picture)
+																if(!strpos($picture, "iconselect"))
+																	echo "icons.push({'iconFilePath':'../../".$picture."'});";
+															
+													echo   "let pic_input = document.getElementById('pic_src');
+															let icon_view = document.getElementById('my-icon-select');
+															let icon_input = new IconSelect('my-icon-select',
+																				{'selectedIconWidth':192,
+																				 'selectedIconHeight':128,
+																				 'selectedBoxPadding':1,
+																				 'iconsWidth':192,
+																				 'iconsHeight':128,
+																				 'boxIconSpace':1,
+																				 'vectoralIconNumber': Math.min(2, icons.length),
+																				 'horizontalIconNumber': Math.min(2, Math.ceil(icons.length / 2))});
+															
+															SetBlockers('my-icon-select');
+															SetBlockers('my-icon-select-box-scroll');
+															
+															icon_view.addEventListener('changed', function(e){
+																
+																let path = icon_input.getSelectedFilePath().substring(6);
+																pic_input.value = path;
+																document.getElementById('preview_picture_wrapper').innerHTML = path == ''? '' : '<div class = \'new_picture\' style = \'background-image : url(../../' + pic_input.value + ');\'></div>';
+															});
+																
+															icon_input.refresh(icons);
+															
+														</script>
 													</td>
 												</tr>
 												<tr>
@@ -133,5 +148,7 @@
 		</table>
 		<script src = "../../scripts/js/page_switcher_admin.js"></script>
 		<script src = "../../scripts/js/input_format_admin.js"></script>
+		<script src = "../../scripts/js/scroll_adder.js"></script>
+		<script>SetScrolls();</script>
 	</body>
 </html>

@@ -2,6 +2,10 @@
 	<head>
 		<title></title>
 		<link rel = "stylesheet" href = "../../styles/main.css"/>
+		<link rel="stylesheet" type="text/css" href="../../scripts/js/libs/iconselect/css/lib/control/iconselect.css" >
+        <script type="text/javascript" src="../../scripts/js/libs/iconselect/lib/control/iconselect.js"></script>
+        <script type="text/javascript" src="../../scripts/js/libs/iconselect/lib/iscroll.js"></script>
+		<script src = "../../scripts/js/scroll_blocker.js"></script>
 	</head>
 	<body>
 		<table border = "0px" cellspacing = "0px" cellpadding = "0px"> 
@@ -71,49 +75,92 @@
 												<tr>
 													<td><label class = 'admin_input_label'>Ілюстрація до розділу: </label></td>
 													<td>
-														<select class = 'admin_input' name = 'src' id = 'pic_src' onchange = \"document.getElementById('preview_picture_wrapper').innerHTML = '<div class = \'new_picture\' style = \'background-image : url(../../' + document.getElementById('pic_src').value + ');\'></div>';\">
-															<option value = 'NULL'>NULL</option>";
-													
-														$pictures = array();
-														$files = scandir("../../");
+														<input class = 'admin_input' hidden name = 'src' id = 'pic_src'></input>
+														<div id = 'my-icon-select'></div>
+														<script>
+															let icons = [{'iconFilePath':'', 'iconValue':'1'}];";
+															
+															include "get_imgs.php";
+															$pictures = GetImgs();
+															
+															foreach($pictures as $picture)
+																if(!strpos($picture, "iconselect"))
+																	echo "icons.push({'iconFilePath':'../../".$picture."'});";
 														
-														for( ; count($files) != 0; ) {
+													echo   "let pic_input = document.getElementById('pic_src');
+															let icon_view = document.getElementById('my-icon-select');
+															let icon_input = new IconSelect('my-icon-select',
+																				{'selectedIconWidth':192,
+																				 'selectedIconHeight':128,
+																				 'selectedBoxPadding':1,
+																				 'iconsWidth':192,
+																				 'iconsHeight':128,
+																				 'boxIconSpace':1,
+																				 'vectoralIconNumber': Math.min(2, icons.length),
+																				 'horizontalIconNumber': Math.min(2, Math.ceil(icons.length / 2))});
+																				 
+															SetBlockers('my-icon-select');
+															SetBlockers('my-icon-select-box-scroll');
 															
-															if(preg_match("/(\.jpg)|(\.png)$/i", $files[0]))
-																array_push($pictures, $files[0]);
+															icon_view.addEventListener('changed', function(e){
+																
+																let path = icon_input.getSelectedFilePath().substring(6);
+																pic_input.value = path;
+																document.getElementById('preview_picture_wrapper').innerHTML = path == ''? '' : '<div class = \'new_picture\' style = \'background-image : url(../../' + pic_input.value + ');\'></div>';
+															});
 															
-															if(preg_match("/^[^\.]+$/", $files[0])){
-																
-																$dirs = scandir("../../".$files[0]);
-																
-																foreach($dirs as $key => $dir)
-																	$dirs[$key] = $files[0]."/".$dirs[$key];
-																
-																$files = array_merge($files, $dirs);
-															}
+															icon_input.refresh(icons);
 															
-															array_shift($files);
-														}
-														
-														echo "<option>".implode("</option>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option>", $pictures)."</option>";
-													
-												echo   "</select>
+														</script>
 													</td>
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label'>Піктограма для перечислення віршів розділу: </label></td>
 													<td>
-														<select class = 'admin_input' name = 'list_item_pict_src' id = 'list_item_src_input' onchange = \"let lis = document.getElementsByClassName('list_item'); let src = 'url(../../' + document.getElementById('list_item_src_input').value + ');'; for(let i of lis) i.style = 'margin-left : 3vw; list-style-image : ' + src;\">
-															<option value = 'NULL'>NULL</option>";
-													
-														foreach($pictures as $picture) {
+														<input class = 'admin_input' hidden name = 'list_item_pict_src' id = 'list_item_src_input'></input>
+														<div id = 'my-picto-icon-select'></div>
+														<script>
+														
+															let picto_input = document.getElementById('list_item_src_input');
+															let picto_icon_view = document.getElementById('my-picto-icon-select');
 															
-															list($width, $height, $type, $attr) = getimagesize("../../".$picture);
-															if($width <= 32 && $height <= 32)
-																echo "<option>".$picture."</option>";
-														}
-													
-												echo "</select>
+															let picto_icons = [{'iconFilePath':'', 'iconValue':'1'}];";
+															
+															foreach($pictures as $picture) {
+																
+																list($width, $height, $type, $attr) = getimagesize("../../".$picture);
+																if($width <= 32 && $height <= 32 && !strpos($picture, "iconselect"))
+																	echo "picto_icons.push({'iconFilePath':'../../".$picture."'});";
+															}
+															
+														echo "let picto_icon_input = new IconSelect('my-picto-icon-select',
+																				{'selectedIconWidth':32,
+																				 'selectedIconHeight':32,
+																				 'selectedBoxPadding':1,
+																				 'iconsWidth':32,
+																				 'iconsHeight':32,
+																				 'boxIconSpace':1,
+																				 'vectoralIconNumber': Math.min(4, picto_icons.length),
+																				 'horizontalIconNumber': Math.min(4, Math.ceil(picto_icons.length / 4))});
+																				 
+															SetBlockers('my-picto-icon-select');
+															SetBlockers('my-picto-icon-select-box-scroll');
+															
+															picto_icon_view.addEventListener('changed', function(e){
+																
+																let path = picto_icon_input.getSelectedFilePath().substring(6);
+																picto_input.value = path;
+																
+																let lis = document.getElementsByClassName('list_item'); 
+																let src = 'url(../../' + document.getElementById('list_item_src_input').value + ');'; 
+																
+																for(let i of lis) 
+																	i.style = 'margin-left : 3vw; list-style-image : ' + src;
+															});
+															
+															picto_icon_input.refresh(picto_icons);
+															
+														</script>
 													</td>
 												</tr>
 												<tr>
@@ -172,5 +219,7 @@
 		</table>
 		<script src = "../../scripts/js/page_switcher_admin.js"></script>
 		<script src = "../../scripts/js/input_format_admin.js"></script>
+		<script src = "../../scripts/js/scroll_adder.js"></script>
+		<script>SetScrolls();</script>
 	</body>
 </html>

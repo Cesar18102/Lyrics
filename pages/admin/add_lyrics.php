@@ -46,32 +46,11 @@
 								echo "<select id = 'pic_src' hidden>
 										<option value = 'NULL'>NULL</option>";
 												
-											$pictures = array();
-											$files = scandir("../../");
-														
-											for( ; count($files) != 0; ) {
-															
-												if(preg_match("/(\.jpg)|(\.png)$/i", $files[0]))
-													array_push($pictures, $files[0]);
-														
-												if(preg_match("/^[^\.]+$/", $files[0])){
-													
-													$dirs = scandir("../../".$files[0]);
-																
-													foreach($dirs as $key => $dir)
-														$dirs[$key] = $files[0]."/".$dirs[$key];
-																
-													$files = array_merge($files, $dirs);
-												}
-															
-												array_shift($files);
-											}
-											
-											$res = "<option value = 'NULL'></option>";
-											foreach($pictures as $p)
-												$res .= "<option value = ".$p.">".$p."</option>";
-														
-											echo $res;
+											include "get_imgs.php";
+											$pictures = GetImgs();
+											echo "<option>".
+														implode("</option>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option>", $pictures).
+												 "</option>";
 													
 									echo   "</select>";
 								
@@ -201,6 +180,7 @@
 		<script src = "../../scripts/js/page_switcher_admin.js"></script>
 		<script src = "../../scripts/js/input_format_admin.js"></script>
 		<script>
+		
 			function lyricsFormat(inputId, previewId, auto_format_checker_id, 
 								  tabbed_checker_id, brs_checker_id, strophe_height_id, 
 								  strophe_delimeter_id, line_wrapper_id, line_wrapper_end_id, 
