@@ -4,6 +4,10 @@
 		<link rel = "stylesheet" href = "../../styles/main.css"/>
 		<script src = "../../scripts/js/libs/glm-ajax.js"></script>
 		<script src = "../../scripts/js/libs/jquery-3.3.1.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../scripts/js/libs/iconselect/css/lib/control/iconselect.css" >
+        <script type="text/javascript" src="../../scripts/js/libs/iconselect/lib/control/iconselect.js"></script>
+        <script type="text/javascript" src="../../scripts/js/libs/iconselect/lib/iscroll.js"></script>
+		<script src = "../../scripts/js/scroll_blocker.js"></script>
 	</head>
 	<body>
 		<table border = "0px" cellspacing = "0px" cellpadding = "0px"> 
@@ -43,18 +47,18 @@
 						
 							if($auth) {
 								
-								echo "<select id = 'pic_src' hidden>
-										<option value = 'NULL'>NULL</option>";
-												
-											include "get_imgs.php";
-											$pictures = GetImgs();
-											echo "<option>".
-														implode("</option>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option>", $pictures).
-												 "</option>";
-													
-									echo   "</select>";
+								echo "<script> 
+										let icons = [{'iconFilePath':'', 'iconValue':'1'}];";
+										
+								include "get_imgs.php";
+								$pictures = GetImgs();
+															
+								foreach($pictures as $picture)
+									if(!strpos($picture, "iconselect"))
+										echo "icons.push({'iconFilePath':'../../".$picture."'});";
 								
-								echo "<center>
+								echo "</script>
+									   <center>
 										<form id = 'new_add_form' onsubmit = 'query()'>
 											<table>
 												<tr> 
@@ -132,7 +136,7 @@
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label' >Кількість ілюстрацій: </label></td>
-													<td><input class = 'admin_input' id = 'pictures_count_id' type = 'number' value = '1' min = '0' max = '10' oninput = \"showPictureChoosers(document.getElementById('pictures_count_id').value, 'picture_choosers');\"></input></td>
+													<td><input class = 'admin_input' id = 'pictures_count_id' type = 'number' value = '1' min = '0' max = '5' oninput = \"showPictureChoosers(document.getElementById('pictures_count_id').value, 'picture_choosers');\"></input></td>
 												</tr>
 												<tr>
 													<td colspan = '2' id = 'picture_choosers' style = 'padding-top : 2vh;'></td>
@@ -278,7 +282,12 @@
 									
 								for(let i = 0; i < count; i++) {
 									
-									let add_img_object = { table : "LYRICS_PICTURES", lyrics_id : id, src : document.getElementById('pic_src_' + i).value };
+									let pic_input = document.getElementById('pic_src_' + i);
+									
+									if(pic_input == null || pic_input.value == "")
+										continue;
+									
+									let add_img_object = { table : "LYRICS_PICTURES", lyrics_id : id, src : pic_input.value };
 									
 									let xhr_add_img = new XMLHttpRequest();
 									xhr_add_img.open('POST', 'query.php', false);
@@ -333,19 +342,55 @@
 				for(let i = 0; i < count; i++) {
 					
 					let input = document.getElementById('pic_src_' + i);
-					cache.push(input == null? "0" : input.selectedIndex);
+					cache.push(input == null? "" : input.value);
 				}
 				
-				wrapper.innerHTML = "";
+				let inner = "<table style = 'margin-left: -160px; margin-right: -320px;'><tr>";
 				
-				let inner = document.getElementById('pic_src').innerHTML;
+				for(let i = 0; i < Math.min(3, count); i++) 
+					inner += "<td><input class = 'admin_input' hidden name = 'src' id = 'pic_src_" + i + "'></input>" +
+							 "<div id = 'my-icon-select" + i + "' style = 'margin-right : 360px; z-index : -100;'></div></td>";
+							 
+				if(count > 3) {
+					
+					inner += "</tr><tr>";
+					for(let i = 3; i < count; i++) 
+						inner += "<td><input class = 'admin_input' hidden name = 'src' id = 'pic_src_" + i + "'></input>" +
+								 "<div id = 'my-icon-select" + i + "' style = 'margin-left : 180px; margin-right : 180px; z-index : -100;'></div></td>";
+				}
+							 
+				inner += "</tr></table>";
 				
-				for(let i = 0; i < count; i++)
-					wrapper.innerHTML += "<center style = 'margin-bottom : 1vh;'><label class = 'admin_input_label' >Ілюстрація №" + (i + 1) + ": </label>" + 
-										 "<select class = 'admin_input' name = 'src' id = 'pic_src_" + i + "' onchange = 'loadPreviewPictures();'>" + inner + "</select></center>";
+				wrapper.innerHTML = inner;
+				
+				for(let i = 0; i < count; i++) {
+					
+					document.getElementById('pic_src_' + i).value = cache[i];
 										 
-				for(let i = 0; i < count; i++)
-					document.getElementById('pic_src_' + i).selectedIndex = cache[i];
+					let input = document.getElementById('pic_src_' + i);
+					let icon_view = document.getElementById('my-icon-select' + i);
+					let icon_input = new IconSelect('my-icon-select' + i,
+													{'selectedIconWidth':160,
+													 'selectedIconHeight':106,
+													 'selectedBoxPadding':1,
+													 'iconsWidth':160,
+													 'iconsHeight':106,
+													 'boxIconSpace':1,
+													 'vectoralIconNumber': 1,
+													 'horizontalIconNumber': 4});
+													 
+					SetBlockers('my-icon-select' + i);
+					SetBlockers('my-icon-select' + i + '-box-scroll');
+					
+					icon_view.addEventListener('changed', function(e){
+																
+						let path = icon_input.getSelectedFilePath().substring(6);
+						input.value = path;
+						loadPreviewPictures();
+					});
+					
+					icon_input.refresh(icons);
+				}
 				
 				loadPreviewPictures();
 			}
@@ -385,7 +430,7 @@
 					
 					let input = document.getElementById('pic_src_' + i);
 					
-					if(input.value != "NULL")
+					if(input != null && input.value != "NULL" && input.value != "")
 						picturesWrapper.innerHTML += "<center><div class = 'lyrics_picture' style = 'background-image : url(../../" + input.value + ");'></div></center>";
 				}
 			}
@@ -401,7 +446,7 @@
 					
 					let input = document.getElementById('video_src_input_' + i);
 					
-					if(input.value != "") {
+					if(input != null && input.value != "") {
 						
 						input.value = input.value.replace('watch', 'embed').replace('?v=', '/');
 						input.value = input.value.substring(0, input.value.indexOf('&'));
@@ -427,5 +472,7 @@
 			showVideoChoosers(document.getElementById('video_count_id').value, 'video_choosers');
 			loadPreviewVideos();
 		</script>
+		<script src = "../../scripts/js/scroll_adder.js"></script>
+		<script>SetScrolls();</script>
 	</body>
 </html>

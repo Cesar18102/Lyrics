@@ -7,10 +7,16 @@ html, body {
 
 .cbalink { display : none; }
 
-#my-icon-select-box-scroll {
+#my-icon-select-box-scroll,
+#my-icon-select0-box-scroll,
+#my-icon-select1-box-scroll,
+#my-icon-select2-box-scroll,
+#my-icon-select3-box-scroll,
+#my-icon-select4-box-scroll {
 	
 	overflow-y : visible !important;
-        padding-right : 20px;
+    padding-right : 20px;
+	z-index : 999;
 }
 
 .header, .footer {
