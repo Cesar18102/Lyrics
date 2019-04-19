@@ -39,12 +39,19 @@
 											$auth = isset($_COOKIE["admin_auth"]) && $_COOKIE["admin_auth"] == "true";
 											
 											if($auth)
-												echo "<form id = 'new_add_form' action = 'pages/admin/query_delete.php' method = 'POST'>
+												echo "<form id = 'new_add_form' action = 'pages/admin/query_delete.php' method = 'POST' style = 'position : relative; margin-top : 0vh;'>
 														<table>
 															<input name = 'table' value = 'NEWS' hidden></input>
 															<input name = 'redirect' value = '../../index.php' hidden></input>
 															<input name = 'id' value = '".$new['id']."' hidden></input>
 															<button class = 'admin_delete_button' type = 'submit'>X</button>
+														</table>
+													  </form>
+													  <form if = 'new_edit_form' action = 'pages/admin/add_new.php' method = 'POST' style = 'position : relative; margin-top : -3vh;'>
+														<table>
+															<input name = 'edit' value = '1' hidden></input>
+															<input name = 'id' value = '".$new['id']."' hidden></input>
+															<button class = 'admin_edit_button' type = 'submit'>...</button>
 														</table>
 													  </form>";
 								echo   "</div>
@@ -53,7 +60,7 @@
 											$new["description"].
 										"</div>";
 										
-							if(isset($new["src"]) && $new["src"] != "NULL")
+							if(isset($new["src"]) && $new["src"] != "NULL" && $new["src"] != "")
 								echo "<center>
 										<div class = 'new_picture' style = 'background-image : url(".$new["src"].");'></div>
 									  </center>";

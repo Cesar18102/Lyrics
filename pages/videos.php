@@ -39,7 +39,7 @@
 											</center>";
 											
 											if(isset($_COOKIE["admin_auth"]) && $_COOKIE["admin_auth"] == "true")
-												echo "<form id = 'new_add_form' action = 'admin/query_delete.php' method = 'POST'>
+												echo "<form id = 'new_add_form' action = 'admin/query_delete.php' method = 'POST' style = 'position : relative; margin-top : 0vh;'>
 														<table>
 															<input name = 'table' value = 'FILMS' hidden></input>
 															<input name = 'redirect' value = '../videos.php' hidden></input>

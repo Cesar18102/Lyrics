@@ -43,37 +43,45 @@
 						
 							if($auth) {
 								
+								if(isset($_POST['edit']) && $_POST['edit'] == '1') {
+								
+									include "../../scripts/php/DB_Request.php";
+									$db_link = Connect();
+									global $new;
+									$new = mysqli_fetch_array(Request($db_link, "SELECT * FROM NEWS WHERE id = ".$_POST['id']), MYSQLI_ASSOC);
+								}
+								
 								echo "<center>
-										<form id = 'new_add_form' action = 'query.php' method = 'POST'>
+										<form id = 'new_add_form' action = '".(isset($new)? "query_update.php" : "query.php")."' method = 'POST'>
 											<table>
 												<tr>
 													<td><input name = 'table' value = 'NEWS' hidden></input></td>
 													<td></td>
 												</tr>
 												<tr>
-													<td><input name = 'redirect' value = 'add_new.php' hidden></input></td>
+													<td><input name = 'redirect' value = '".(isset($new)? "../../index.php" : "add_new.php")."' hidden></input></td>
 													<td></td>
 												</tr>
 												<tr>
-													<td><input name = 'id' value = '0' hidden></input></td>
+													<td><input name = 'id' value = '".(isset($new)? $new['id'] : 0)."' hidden></input></td>
 													<td></td>
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label'>Заголовок новини: </label></td>
-													<td><input class = 'admin_input' name = 'title' id = 'title_input' required oninput = \"textFormatPreview('title_input', 'preview_title', 'Заголовок новини');\"></input></td>
+													<td><input class = 'admin_input' name = 'title' value = '".(isset($new)? $new['title'] : "")."' id = 'title_input' required oninput = \"textFormatPreview('title_input', 'preview_title', 'Заголовок новини');\"></input></td>
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label'>Текст новини: </label></td>
-													<td><textarea class = 'admin_textarea' name = 'description' id = 'text_input' oninput = \"textFormatPreview('text_input', 'preview_text', 'Текст новини');\"></textarea></td>
+													<td><textarea class = 'admin_textarea' name = 'description' value = '".(isset($new)? $new['description'] : "")."' id = 'text_input' oninput = \"textFormatPreview('text_input', 'preview_text', 'Текст новини');\">".(isset($new)? $new['description'] : "")."</textarea></td>
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label'>Дата новини: </label></td>
-													<td><input class = 'admin_input' name = 'news_date' type = 'date' id = 'date_input' value = '".date('Y-m-j')."' required oninput = \"document.getElementById('preview_date').innerHTML = document.getElementById('date_input').value;\"></input></td>
+													<td><input class = 'admin_input' name = 'news_date' type = 'date' value = '".(isset($new)? $new['news_date'] : "")."' id = 'date_input' value = '".date('Y-m-j')."' required oninput = \"document.getElementById('preview_date').innerHTML = document.getElementById('date_input').value;\"></input></td>
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label'>Ілюстрація до новини: </label></td>
 													<td>
-														<input class = 'admin_input' hidden name = 'src' id = 'pic_src'></input>
+														<input class = 'admin_input' hidden name = 'src' value = '".(isset($new)? $new['src'] : "")."' id = 'pic_src'></input>
 														<div id = 'my-icon-select'></div>
 														<script>
 														
@@ -86,7 +94,8 @@
 																if(!strpos($picture, "iconselect"))
 																	echo "icons.push({'iconFilePath':'../../".$picture."'});";
 															
-													echo   "let pic_input = document.getElementById('pic_src');
+													echo   "
+															let pic_input = document.getElementById('pic_src');
 															let icon_view = document.getElementById('my-icon-select');
 															let icon_input = new IconSelect('my-icon-select',
 																				{'selectedIconWidth':192,
@@ -103,8 +112,8 @@
 															
 															icon_view.addEventListener('changed', function(e){
 																
-																let path = icon_input.getSelectedFilePath().substring(6);
-																pic_input.value = path;
+																let path = icon_input.getSelectedFilePath().substring(6);".
+																"pic_input.value = path;
 																document.getElementById('preview_picture_wrapper').innerHTML = path == ''? '' : '<div class = \'new_picture\' style = \'background-image : url(../../' + pic_input.value + ');\'></div>';
 															});
 																
@@ -115,7 +124,7 @@
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label'>Відео до новини: </label></td>
-													<td><input class = 'admin_input' name = 'video_src' id = 'video_src_input' maxlength = '200' type = 'url' placeholder = 'https://www.youtube.com/embed/cwyoYeRfpSM' oninput = \"VideoFormat('video_src_input', 'preview_video_new_wrapper')\"></input></td>
+													<td><input class = 'admin_input' name = 'video_src' id = 'video_src_input' value = '".(isset($new)? $new['video_src'] : "")."' maxlength = '200' type = 'url' placeholder = 'https://www.youtube.com/embed/cwyoYeRfpSM' oninput = \"VideoFormat('video_src_input', 'preview_video_new_wrapper')\"></input></td>
 												</tr>
 												<tr>
 													<td colspan = '2'>
@@ -150,5 +159,17 @@
 		<script src = "../../scripts/js/input_format_admin.js"></script>
 		<script src = "../../scripts/js/scroll_adder.js"></script>
 		<script>SetScrolls();</script>
+		<script>
+			
+			textFormatPreview('title_input', 'preview_title', 'Заголовок новини');
+			textFormatPreview('text_input', 'preview_text', 'Текст новини');
+			document.getElementById('preview_date').innerHTML = document.getElementById('date_input').value;
+			
+			let p = "<?php echo $new['src']; ?>";
+			document.getElementById('preview_picture_wrapper').innerHTML = p == '' || p == 'NULL'? '' : '<div class = \'new_picture\' style = \'background-image : url(../../' + p + ');\'></div>';
+			
+			VideoFormat('video_src_input', 'preview_video_new_wrapper');
+			
+		</script>
 	</body>
 </html>

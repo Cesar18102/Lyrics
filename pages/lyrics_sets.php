@@ -40,7 +40,7 @@
 												$set["write_date"];
 											
 											if(isset($_COOKIE["admin_auth"]) && $_COOKIE["admin_auth"] == "true")
-												echo "<form id = 'new_add_form' action = 'admin/query_delete.php' method = 'POST'>
+												echo "<form id = 'new_add_form' action = 'admin/query_delete.php' method = 'POST' style = 'position : relative; margin-top : 0vh;'>
 														<table>
 															<input name = 'table' value = 'LYRICS_SET' hidden></input>
 															<input name = 'redirect' value = '../lyrics_sets.php' hidden></input>

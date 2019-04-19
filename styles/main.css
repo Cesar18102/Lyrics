@@ -121,7 +121,7 @@ html, body {
 	height : 20vh;
 }
 
-.admin_delete_button { 
+.admin_delete_button, .admin_edit_button { 
 
 	font-family : Lucida Handwriting, fantasy;
 	font-size : 1vw;
@@ -138,6 +138,11 @@ html, body {
 	
 	background-color : red;
 	float : right;
+}
+
+.admin_edit_button {
+	
+	background-color : rgb(255, 222, 31);
 }
 
 #creative_button, #main_button { left : 12vw; }
