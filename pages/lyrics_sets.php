@@ -47,6 +47,13 @@
 															<input name = 'id' value = '".$set['id']."' hidden></input>
 															<button class = 'admin_delete_button' type = 'submit'>X</button>
 														</table>
+													  </form>
+													  <form id = 'new_edit_form' action = 'admin/add_lyrics_set.php' method = 'POST' style = 'position : relative; margin-top : -3vh;'>
+														<table>
+															<input name = 'edit' value = '1' hidden></input>
+															<input name = 'id' value = '".$set['id']."' hidden></input>
+															<button class = 'admin_edit_button' type = 'submit'>...</button>
+														</table>
 													  </form>";
 													  
 										echo "</div>
@@ -77,7 +84,7 @@
 							echo 			"</tr></table></center>
 										</div>";
 										
-										if(isset($set["src"]) && $set["src"] != "NULL")
+										if(isset($set["src"]) && $set["src"] != "NULL" && $set["src"] != "")
 											echo "<center><div class = 'set_picture' style = 'background-image : url(../".$set["src"].");'></div></center>";
 							echo "</div>";
 						}

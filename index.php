@@ -47,7 +47,7 @@
 															<button class = 'admin_delete_button' type = 'submit'>X</button>
 														</table>
 													  </form>
-													  <form if = 'new_edit_form' action = 'pages/admin/add_new.php' method = 'POST' style = 'position : relative; margin-top : -3vh;'>
+													  <form id = 'new_edit_form' action = 'pages/admin/add_new.php' method = 'POST' style = 'position : relative; margin-top : -3vh;'>
 														<table>
 															<input name = 'edit' value = '1' hidden></input>
 															<input name = 'id' value = '".$new['id']."' hidden></input>

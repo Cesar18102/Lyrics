@@ -49,6 +49,13 @@
 																<input name = 'id' value = '".$lyrics['id']."' hidden></input>
 																<button class = 'admin_delete_button' type = 'submit'>X</button>
 															</table>
+														  </form>
+														  <form id = 'new_edit_form' action = 'admin/add_lyrics.php' method = 'POST' style = 'position : relative; margin-top : -3vh;'>
+															<table>
+																<input name = 'edit' value = '1' hidden></input>
+																<input name = 'id' value = '".$lyrics['id']."' hidden></input>
+																<button class = 'admin_edit_button' type = 'submit'>...</button>
+															</table>
 														  </form>";
 														  
 								echo 	   "</center>
@@ -83,8 +90,7 @@
 								}
 								
 								echo				$content.
-										/*div*/"
-											</center>
+										"</center>
 											<div class = 'lyrics_comment'>".
 												$lyrics["author_comment"].
 											"</div>";
@@ -94,7 +100,7 @@
 										echo "<center><div class = 'lyrics_picture' style = 'background-image : url(../".$picture["src"].");'></div></center>";
 								   
 								while($video = mysqli_fetch_array($videos, MYSQLI_ASSOC))
-									if($video["video_src"] != "" && $video["video_src"] != "NULL")
+									if($video["video_src"] != "" && $video["video_src"] != "NULL" && $video["video_src"] != "")
 									   echo "<div class = 'video_new_wrapper'>
 												<iframe class = 'video_new' src='".$video["video_src"]."' frameborder='1' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
 											 </div>";

@@ -45,37 +45,45 @@
 						
 							if($auth) {
 								
+								if(isset($_POST['edit']) && $_POST['edit'] == '1') {
+								
+									include "../../scripts/php/DB_Request.php";
+									$db_link = Connect();
+									global $set;
+									$set = mysqli_fetch_array(Request($db_link, "SELECT * FROM LYRICS_SET WHERE id = ".$_POST['id']), MYSQLI_ASSOC);
+								}
+								
 								echo "<center>
-										<form id = 'new_add_form' action = 'query.php' method = 'POST'>
+										<form id = 'new_add_form' action = '".(isset($set)? "query_update.php" : "query.php")."' method = 'POST'>
 											<table>
 												<tr>
 													<td><input name = 'table' value = 'LYRICS_SET' hidden></input></td>
 													<td></td>
 												</tr>
 												<tr>
-													<td><input name = 'redirect' value = 'add_lyrics_set.php' hidden></input></td>
+													<td><input name = 'redirect' value = '".(isset($set)? "../lyrics_sets.php" : "add_lyrics_set.php")."' hidden></input></td>
 													<td></td>
 												</tr>
 												<tr>
-													<td><input name = 'id' value = '0' hidden></input></td>
+													<td><input name = 'id' value = '".(isset($set)? $set['id'] : 0)."' hidden></input></td>
 													<td></td>
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label'>Назва збірника та назва розділу: </label></td>
-													<td><input class = 'admin_input' name = 'name' id = 'title_input' maxlength = '100' placeholder = 'Назва збірника - назва розділу' required oninput = \"textFormatPreview('title_input', 'preview_title', 'Назва збірника - назва розділу');\"></input></td>
+													<td><input class = 'admin_input' name = 'name' value = '".(isset($set)? $set['name'] : "")."' id = 'title_input' maxlength = '100' placeholder = 'Назва збірника - назва розділу' required oninput = \"textFormatPreview('title_input', 'preview_title', 'Назва збірника - назва розділу');\"></input></td>
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label'>Опис розділу: </label></td>
-													<td><textarea class = 'admin_textarea' name = 'description' id = 'text_input' oninput = \"textFormatPreview('text_input', 'preview_text', 'Опис розділу');\"></textarea></td>
+													<td><textarea class = 'admin_textarea' name = 'description' value = '".(isset($set)? $set['description'] : "")."' id = 'text_input' oninput = \"textFormatPreview('text_input', 'preview_text', 'Опис розділу');\">".(isset($set)? $set['description'] : "")."</textarea></td>
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label'>Дата дата видання збірника: </label></td>
-													<td><input class = 'admin_input' name = 'write_date' type = 'date' id = 'date_input' value = '".date('Y-m-j')."' required oninput = \"document.getElementById('preview_date').innerHTML = document.getElementById('date_input').value;\"></input></td>
+													<td><input class = 'admin_input' name = 'write_date' type = 'date' id = 'date_input' value = '".(isset($set)? $set['write_date'] : date('Y-m-j'))."' required oninput = \"document.getElementById('preview_date').innerHTML = document.getElementById('date_input').value;\"></input></td>
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label'>Ілюстрація до розділу: </label></td>
 													<td>
-														<input class = 'admin_input' hidden name = 'src' id = 'pic_src'></input>
+														<input class = 'admin_input' hidden name = 'src' value = '".(isset($set)? $set['src'] : "")."' id = 'pic_src'></input>
 														<div id = 'my-icon-select'></div>
 														<script>
 															let icons = [{'iconFilePath':'', 'iconValue':'1'}];";
@@ -117,7 +125,7 @@
 												<tr>
 													<td><label class = 'admin_input_label'>Піктограма для перечислення віршів розділу: </label></td>
 													<td>
-														<input class = 'admin_input' hidden name = 'list_item_pict_src' id = 'list_item_src_input'></input>
+														<input class = 'admin_input' hidden name = 'list_item_pict_src' value = '".(isset($set)? $set['list_item_pict_src'] : "")."' id = 'list_item_src_input'></input>
 														<div id = 'my-picto-icon-select'></div>
 														<script>
 														
@@ -221,5 +229,23 @@
 		<script src = "../../scripts/js/input_format_admin.js"></script>
 		<script src = "../../scripts/js/scroll_adder.js"></script>
 		<script>SetScrolls();</script>
+		<script>
+			
+			textFormatPreview('title_input', 'preview_title', 'Назва збірника - назва розділу');
+			textFormatPreview('text_input', 'preview_text', 'Опис розділу');
+			document.getElementById('preview_date').innerHTML = document.getElementById('date_input').value;
+			
+			let p = "<?php echo $set['src'] ?>";
+			document.getElementById('preview_picture_wrapper').innerHTML = p == '' || p == 'NULL'? '' : '<div class = \'new_picture\' style = \'background-image : url(../../' + p + ');\'></div>';
+			
+			
+			let pic = "<?php echo $set['list_item_pict_src'] ?>";
+			let lis = document.getElementsByClassName('list_item'); 
+			let src = 'url(../../' + pic + ');'; 
+																
+			for(let i of lis) 
+				i.style = 'margin-left : 3vw; list-style-image : ' + src;
+																
+		</script>
 	</body>
 </html>

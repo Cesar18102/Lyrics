@@ -76,7 +76,7 @@
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label'>Дата новини: </label></td>
-													<td><input class = 'admin_input' name = 'news_date' type = 'date' value = '".(isset($new)? $new['news_date'] : "")."' id = 'date_input' value = '".date('Y-m-j')."' required oninput = \"document.getElementById('preview_date').innerHTML = document.getElementById('date_input').value;\"></input></td>
+													<td><input class = 'admin_input' name = 'news_date' type = 'date' value = '".(isset($new)? $new['news_date'] : date('Y-m-j'))."' id = 'date_input' required oninput = \"document.getElementById('preview_date').innerHTML = document.getElementById('date_input').value;\"></input></td>
 												</tr>
 												<tr>
 													<td><label class = 'admin_input_label'>Ілюстрація до новини: </label></td>
@@ -112,8 +112,8 @@
 															
 															icon_view.addEventListener('changed', function(e){
 																
-																let path = icon_input.getSelectedFilePath().substring(6);".
-																"pic_input.value = path;
+																let path = icon_input.getSelectedFilePath().substring(6);
+																pic_input.value = path;
 																document.getElementById('preview_picture_wrapper').innerHTML = path == ''? '' : '<div class = \'new_picture\' style = \'background-image : url(../../' + pic_input.value + ');\'></div>';
 															});
 																
