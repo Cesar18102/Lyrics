@@ -278,12 +278,12 @@
 					 
 					 "let xhr_get_id = new XMLHttpRequest();
 					  xhr_get_id.open('POST', 'query_select.php', false);
-					  let data = { query : 'SELECT MAX(id) AS id FROM LYRICS' };
+					  let data = { query : \"SELECT AUTO_INCREMENT as id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'vivakir' AND TABLE_NAME = 'LYRICS'\" };
 					  let body_get_id = fillXMLHttpRequest(data, xhr_get_id)
 					  xhr_get_id.onreadystatechange = function() {
 						 if(xhr_get_id.readyState === XMLHttpRequest.DONE && xhr_get_id.status === 200) {
 								
-							query2(JSON.parse(xhr_get_id.responseText)['id'] + 1);
+							query2(JSON.parse(xhr_get_id.responseText)['id']);
 						 };
 					  }
 					xhr_get_id.send(body_get_id);"; ?>
