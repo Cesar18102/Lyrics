@@ -167,6 +167,7 @@
 			
 			let p = "<?php echo $new['src']; ?>";
 			document.getElementById('preview_picture_wrapper').innerHTML = p == '' || p == 'NULL'? '' : '<div class = \'new_picture\' style = \'background-image : url(../../' + p + ');\'></div>';
+			document.getElementById('pic_src').value = p;
 			
 			VideoFormat('video_src_input', 'preview_video_new_wrapper');
 			

@@ -237,9 +237,11 @@
 			
 			let p = "<?php echo $set['src'] ?>";
 			document.getElementById('preview_picture_wrapper').innerHTML = p == '' || p == 'NULL'? '' : '<div class = \'new_picture\' style = \'background-image : url(../../' + p + ');\'></div>';
+			document.getElementById('pic_src').value = p;
 			
 			
 			let pic = "<?php echo $set['list_item_pict_src'] ?>";
+			document.getElementById('list_item_src_input').value = pic;
 			let lis = document.getElementsByClassName('list_item'); 
 			let src = 'url(../../' + pic + ');'; 
 																

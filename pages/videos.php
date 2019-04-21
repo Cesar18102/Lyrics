@@ -46,6 +46,13 @@
 															<input name = 'id' value = '".$video['id']."' hidden></input>
 															<button class = 'admin_delete_button' type = 'submit'>X</button>
 														</table>
+													  </form>
+													  <form id = 'new_edit_form' action = 'admin/add_film.php' method = 'POST' style = 'position : relative; margin-top : -3vh;'>
+														<table>
+															<input name = 'edit' value = '1' hidden></input>
+															<input name = 'id' value = '".$video['id']."' hidden></input>
+															<button class = 'admin_edit_button' type = 'submit'>...</button>
+														</table>
 													  </form>";
 							echo	   "</div>
 										<div class = 'video_description'>".

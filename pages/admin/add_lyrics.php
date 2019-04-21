@@ -86,7 +86,7 @@
 															
 								foreach($pictures as $picture)
 									if(!strpos($picture, "iconselect"))
-										echo "icons.push({'iconFilePath':'../../".$picture."'});";
+										echo "icons.push({'iconFilePath':'../../".$picture."'});\n";
 								
 								echo "</script>
 									   <center>
@@ -461,7 +461,7 @@
 					let input = document.getElementById('pic_src_' + i);
 					
 					if(input != null && load)
-						input.value = "<?php $t = mysqli_fetch_array($pics, MYSQLI_ASSOC); array_push($pcs, $t); echo $t['src'] ?>";
+						input.value = "<?php if(isset($lyr)) { $t = mysqli_fetch_array($pics, MYSQLI_ASSOC); array_push($pcs, $t); echo $t['src']; } ?>";
 						
 					if(input != null && input.value != "NULL" && input.value != "")
 						picturesWrapper.innerHTML += "<center><div class = 'lyrics_picture' style = 'background-image : url(../../" + input.value + ");'></div></center>";
@@ -480,7 +480,7 @@
 					let input = document.getElementById('video_src_input_' + i);
 					
 					if(input != null && load)
-						input.value = "<?php $t = mysqli_fetch_array($vid, MYSQLI_ASSOC); array_push($v, $t); echo $t['video_src'] ?>";
+						input.value = "<?php if(isset($lyr)) { $t = mysqli_fetch_array($vid, MYSQLI_ASSOC); array_push($v, $t); echo $t['video_src']; } ?>";
 					
 					if(input != null && input.value != "") {
 						

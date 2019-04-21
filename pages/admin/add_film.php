@@ -11,7 +11,16 @@
 						
 						<?php 
 							
-							if(isset($_COOKIE["admin_auth"]) && $_COOKIE["admin_auth"] == "true")
+							if(isset($_COOKIE["admin_auth"]) && $_COOKIE["admin_auth"] == "true") {
+								
+								if(isset($_POST['edit']) && $_POST['edit'] == '1') {
+								
+									include "../../scripts/php/DB_Request.php";
+									$db_link = Connect();
+									global $fil;
+									$fil = mysqli_fetch_array(Request($db_link, "SELECT * FROM FILMS WHERE id = ".$_POST['id']), MYSQLI_ASSOC);
+								}
+								
 								echo '<div class = "head_button" id = "new_add">Новина</div>
 									  <div class = "head_button" id = "lyrics_set_add">Збірник</div>
 									  <div class = "head_button" id = "lyrics_add">Вірш</div>
@@ -22,6 +31,7 @@
 										<input name = "redirect" value = "admin.php" hidden></input>
 										<div class = "head_button" id = "admin_out" onclick = "document.getElementById(\'out_form\').submit();">X</div>
 									  </form>';
+							}
 							else 
 								Header("Location: admin.php");
 						?>
@@ -36,19 +46,19 @@
 					<div class = "content">
 					
 						<center>
-							<form onsubmit = 'addFilm();'>
+							<form onsubmit = '<?php echo isset($fil)? 'deleteFilm('.$fil['id'].');' : '' ?> addFilm();'>
 								<table>
 									<tr>
 										<td><label class = 'admin_input_label'>Назва відео: </label></td>
-										<td><input class = 'admin_input' name = 'name' id = 'name_input' required oninput = "textFormatPreview('name_input', 'preview_name', 'Назва відео');"></input></td>
+										<td><input class = 'admin_input' name = 'title' value = '<?php echo isset($fil) ? $fil['title'] : ""; ?>' id = 'name_input' required oninput = "textFormatPreview('name_input', 'preview_name', 'Назва відео');"></input></td>
 									</tr>
 									<tr>
 										<td><label class = 'admin_input_label'>Опис відео: </label></td>
-										<td><textarea class = 'admin_textarea' name = 'description' id = 'text_input' oninput = "textFormatPreview('text_input', 'preview_text', 'Опис відео');"></textarea></td>
+										<td><textarea class = 'admin_textarea' name = 'description' value = '<?php echo isset($fil) ? $fil['description'] : ""; ?>' id = 'text_input' oninput = "textFormatPreview('text_input', 'preview_text', 'Опис відео');"><?php echo isset($fil) ? $fil['description'] : ""; ?></textarea></td>
 									</tr>
 									<tr>
 										<td><label class = 'admin_input_label'>Відео: </label></td>
-										<td><input class = 'admin_input' name = 'video_src' id = 'video_src_input' maxlength = '200' required type = 'url' placeholder = 'https://www.youtube.com/embed/cwyoYeRfpSM' oninput = "VideoFormat('video_src_input', 'preview_video_wrapper');"></input></td>
+										<td><input class = 'admin_input' name = 'video_src' id = 'video_src_input' value = '<?php echo isset($fil) ? $fil['video_src'] : ""; ?>' maxlength = '200' required type = 'url' placeholder = 'https://www.youtube.com/embed/cwyoYeRfpSM' oninput = "VideoFormat('video_src_input', 'preview_video_wrapper');"></input></td>
 									</tr>
 									<tr>
 										<td colspan = '2'>
@@ -83,13 +93,22 @@
 		<script src = "../../scripts/js/input_format_admin.js"></script>
 		<script>
 		
+			function deleteFilm(id) {
+				
+				let xhr_delete = new XMLHttpRequest();
+				xhr_delete.open('POST', 'query_delete.php', false);
+				let data_delete = { redirect : '../videos.php', table : 'FILMS', id : id };
+				let body_delete = fillXMLHttpRequest(data_delete, xhr_delete);
+				xhr_delete.send(body_delete);
+			}
+		
 			function addFilm() {
 				
 				let name = document.getElementById('name_input').value;
 				let descr = document.getElementById('text_input').value;
 				let video_src = document.getElementById('video_src_input').value;
 				
-				let film_data_object = { table : "FILMS", id : 0, title : name, description : descr, video_src : video_src };
+				let film_data_object = { table : "FILMS", id : <?php echo isset($fil)? $fil['id'] : 0; ?>, title : name, description : descr, video_src : video_src };
 				
 				let xhr_add_film = new XMLHttpRequest();
 				xhr_add_film.open('POST', 'query.php', false);
@@ -112,6 +131,14 @@
 				xhr.setRequestHeader('Content-Type', 'multipart/form-data; boundary=' + boundary);
 				return body;
 			}
+			
+		</script>
+		
+		<script>
+		
+			textFormatPreview('name_input', 'preview_name', 'Назва відео');
+			textFormatPreview('text_input', 'preview_text', 'Опис відео');
+			VideoFormat('video_src_input', 'preview_video_wrapper');
 			
 		</script>
 	</body>
