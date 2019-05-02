@@ -280,6 +280,14 @@ html, body {
 	padding-top : 1vh;
 	margin-left : -1vw;
 	margin-bottom : -2vh;
+	
+	background-color : black;
+	border-radius : 22px;
+}
+
+.video_new_wrapper {
+	
+	margin-bottom : -0.1vh;
 }
 
 .video_new, .video {
@@ -413,14 +421,11 @@ html, body {
 	
 	background-image : url(../pic/1.png);
 	
-	float : right;
-	
 	width : 66vw;
 	height : 40vh;
 	
 	margin-top : 1vh;
 	margin-bottom : 1vh;
-	margin-left : 2vw;
 }
 
 .admin_input, .admin_input_label, .admin_submit_button, .admin_textarea {

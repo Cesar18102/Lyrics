@@ -2,6 +2,9 @@
 	<head>
 		<title></title>
 		<link rel = "stylesheet" href = "styles/main.css"/>
+		<link rel = "icon" href = "pic/list_item_image.png"/>
+		<meta name = "description" content = "Кириченко Віктор Васильович - офіційна особиста сторінка"/>
+		<meta name = "keywords" content = "Кириченко, Віктор Васильович, вірші, стихи, стихотворения, пісні, песни, картини, акадамік НААН, творчість, новини"/>
 	</head>
 	<body>
 		<table border = "0px" cellspacing = "0px" cellpadding = "0px"> 
