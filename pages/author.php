@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title></title>
+		<title>Офіційна особиста сторінка Віктора Васильовича Кириченка</title>
 		<link rel = "stylesheet" href = "../styles/main.css"/>
 		<link rel = "icon" href = "../pic/list_item_image.png"/>
 		<meta name = "description" content = "Кириченко Віктор Васильович - офіційна особиста сторінка"/>
